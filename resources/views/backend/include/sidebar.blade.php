@@ -3,7 +3,7 @@
         <a href="{{ route('dashboard') }}" class="brand-wrap">
             @if ($config)
                 {{-- <link rel="shortcut icon" href="" type="image/x-icon"> --}}
-                <img src="{{ asset('files/config/'.$config->logo) }}" class="logo" alt="Evara Dashboard">
+                <img src="{{ asset('files/config/' . $config->logo) }}" class="logo" alt="Evara Dashboard">
             @endif
         </a>
         <div>
@@ -19,17 +19,18 @@
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('employee.index') }}"> <i class="icon material-icons md-add_box"></i>
-                    <span class="text">Employee</span>
+                <a class="menu-link" href="{{ route('admin.order') }}"> <i class="icon material-icons md-add_box"></i>
+                    <span class="text">Order</span>
                 </a>
             </li>
             <li class="menu-item has-submenu">
-                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Category</span>
+                <a class="menu-link" href="#"> <i class="icon material-icons md-add_box"></i>
+                    <span class="text">product</span>
                 </a>
                 <div class="submenu">
-                    <a href="{{ route('category.index') }}">Category List</a>
-                    <a href="{{ route('category.create') }}">Create Category</a>
+                    <a href="{{ route('attr') }}">Attributes</a>
+                    <a href="{{ route('product.index') }}">Product List</a>
+                    <a href="{{ route('product.create') }}">Add product</a>
                 </div>
             </li>
             <li class="menu-item has-submenu">
@@ -39,6 +40,15 @@
                 <div class="submenu">
                     <a href="{{ route('banner.index') }}">Banner List</a>
                     <a href="{{ route('banner.create') }}">Create Banner</a>
+                </div>
+            </li>
+            <li class="menu-item has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Category</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{ route('category.index') }}">Category List</a>
+                    <a href="{{ route('category.create') }}">Create Category</a>
                 </div>
             </li>
             <li class="menu-item has-submenu">
@@ -61,15 +71,6 @@
             </li>
             <li class="menu-item has-submenu">
                 <a class="menu-link" href="#"> <i class="icon material-icons md-add_box"></i>
-                    <span class="text">product</span>
-                </a>
-                <div class="submenu">
-                    <a href="{{ route('product.index') }}">Product List</a>
-                    <a href="{{ route('product.create') }}">Add product</a>
-                </div>
-            </li>
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#"> <i class="icon material-icons md-add_box"></i>
                     <span class="text">Coupon</span>
                 </a>
                 <div class="submenu">
@@ -78,13 +79,15 @@
                 </div>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('admin.order') }}"> <i class="icon material-icons md-add_box"></i>
-                    <span class="text">Order</span>
+                <a class="menu-link" href="{{ route('shipping.index') }}"> <i
+                        class="icon material-icons md-add_box"></i>
+                    <span class="text">Shipping</span>
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" href="{{ route('shipping.index') }}"> <i class="icon material-icons md-add_box"></i>
-                    <span class="text">Shipping</span>
+                <a class="menu-link" href="{{ route('employee.index') }}"> <i
+                        class="icon material-icons md-add_box"></i>
+                    <span class="text">Employee</span>
                 </a>
             </li>
             @if (Auth::guard('admin')->user()->role == 'superAdmin')
