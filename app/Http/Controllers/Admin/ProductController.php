@@ -6,13 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use App\Models\ProductPhoto;
 use App\Models\ProductQuantity;
-use App\Models\ProductService;
 use App\Models\Service;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Photo;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -30,19 +26,16 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $service = Service::all();
-        $categories = ProductCategory::all();
+        $service = Service::get();
+        $categories = ProductCategory::get();
 
         if ($categories->isEmpty()) {
             return redirect()->route('category.create')->with('err', 'Add category before product');
-        }elseif ($service->isEmpty()) {
+        } elseif ($service->isEmpty()) {
             return redirect()->route('variation.create')->with('err', 'Add service before product');
         }
 
-        return view('backend.product.create_product', [
-            'categories' => $categories,
-            'services'   => $service,
-        ]);
+        return view('backend.product.create_product');
     }
 
     public function store(Request $request)
@@ -53,14 +46,26 @@ class ProductController extends Controller
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
-            'price'             => 'required|integer',
-            'stk_price'         => 'required|integer',
-            'qnt'               => 'required',
+            'price'             => 'required|array|present',
+            'price.*'           => 'required|integer',
+            'stock_price'       => 'required|array|present',
+            'stock_price.*'     => 'required|integer',
+            's_price'           => 'required|array|present',
+            's_price.*'         => 'required|integer',
+            'sp_type'           => 'required|array|present',
+            'sp_type.*'         => 'required|string',
+            'qnt'               => 'required|array|present',
+            'qnt.*'             => 'required|integer',
+            'color_id'          => 'required|array|present', // Validate color_id array is present
+            'color_id.*'        => 'required|integer', // Validate each element of color_id is an integer
+            'size_id'           => 'required|array|present', // Validate size_id array is present
+            'size_id.*'         => 'required|integer', // Validate each element of size_id is an integer
             'service'           => 'required|array|present',
             'images'            => 'required|array|present',
         ]);
+        dd($request->all());
 
-        $sku = 'SK'. now()->format('mdH'). strtoupper(Str::random(4)). now()->format('is');
+        $sku = 'SK' . now()->format('mdH') . strtoupper(Str::random(4)) . now()->format('is');
         $slug = Str::slug($request->product_name);
 
         // Check if the slug already exists, append numeric value if necessary
@@ -83,7 +88,7 @@ class ProductController extends Controller
             $product->discount          = $request->discount;
             $product->price             = $request->price;
             $product->video_link        = $request->link;
-            $product->qnt	            = $request->qnt;
+            $product->qnt                = $request->qnt;
             $product->status            = $request->btn;
             $product->featured          = $request->featured == 'on' ? 1 : 0;
             $product->popular           = $request->popular == 'on' ? 1 : 0;
@@ -92,36 +97,36 @@ class ProductController extends Controller
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
-            $product->sku               = 'SK' . now()->format('md'). strtoupper(Str::random(3)). now()->format('Hi');
+            $product->sku               = 'SK' . now()->format('md') . strtoupper(Str::random(3)) . now()->format('Hi');
             $product->save();
 
             $product_id = $product->id;
 
-            if ($product) {
+            // if ($product) {
 
-                $product_qnt = new ProductQuantity();
-                $product_qnt->product_id    = $product_id;
-                $product_qnt->quantity      = $request->qnt;
-                $product_qnt->sale_price    = $request->price;
-                $product_qnt->stock_price   = $request->stk_price;
-                $product_qnt->save();
+            //     $product_qnt = new ProductQuantity();
+            //     $product_qnt->product_id    = $product_id;
+            //     $product_qnt->quantity      = $request->qnt;
+            //     $product_qnt->sale_price    = $request->price;
+            //     $product_qnt->stock_price   = $request->stk_price;
+            //     $product_qnt->save();
 
-                foreach ($request->service as $service) {
-                    ProductService::insert([
-                        'product_id' => $product_id,
-                        'service_id' => $service,
-                        'created_at' => Carbon::now(),
-                    ]);
-                }
+            //     foreach ($request->service as $service) {
+            //         ProductService::insert([
+            //             'product_id' => $product_id,
+            //             'service_id' => $service,
+            //             'created_at' => Carbon::now(),
+            //         ]);
+            //     }
 
-                foreach ($request->images as  $image) {
-                    Photo::upload($image, 'files/product',  $product_id . 'PRO', [1100, 1100]);
-                    ProductPhoto::insert([
-                        'product_id'    => $product_id,
-                        'image'         => Photo::$name,
-                    ]);
-                }
-            }
+            //     foreach ($request->images as  $image) {
+            //         Photo::upload($image, 'files/product',  $product_id . 'PRO', [1100, 1100]);
+            //         ProductPhoto::insert([
+            //             'product_id'    => $product_id,
+            //             'image'         => Photo::$name,
+            //         ]);
+            //     }
+            // }
 
             DB::commit();
         } catch (\Exception $e) {
@@ -197,7 +202,7 @@ class ProductController extends Controller
 
                 //Product qnt update
                 $product->qnt = $product->qnt + $request->qnt;
-            }elseif ($firstProductQuantity) {
+            } elseif ($firstProductQuantity) {
                 $firstProductQuantity->sale_price  = $request->price;
                 $firstProductQuantity->stock_price = $request->stk_price;
             }

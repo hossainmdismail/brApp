@@ -1,31 +1,32 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\CampaignController;
-use App\Http\Controllers\Admin\CampaignProduct;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CountryController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ShippingController;
-use App\Http\Controllers\Admin\VariationController;
-use App\Http\Controllers\Admin\VariationOptionController;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AdminOrder;
-use App\Http\Controllers\AttrColorController;
-use App\Http\Controllers\AttrSizeController;
-use App\Http\Controllers\CategoryController as ControllersCategoryController;
-use App\Http\Controllers\CheckoutController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SEOController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ConfigController;
-use App\Http\Controllers\CustomLinkController;
+use App\Http\Controllers\AttrSizeController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FeaturesController;
 use App\Http\Controllers\FrontendController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AttrColorController;
+use App\Http\Controllers\CustomLinkController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CampaignProduct;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\CampaignController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ShippingController;
+use App\Http\Controllers\Admin\VariationController;
+use App\Http\Controllers\Admin\VariationOptionController;
 use App\Http\Controllers\ProductController as ControllersProductController;
-use App\Http\Controllers\SEOController;
-use App\Http\Controllers\ShopController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController as ControllersCategoryController;
 
 
 //Frontend
@@ -49,6 +50,15 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/campaign/{id}', [HomeController::class, 'campaign'])->name('campaign.product.list');
 Route::get('/privacy-policy', [HomeController::class, 'privacy'])->name('privacy');
 Route::get('/sitemap', [SEOController::class, 'sitemap'])->name('sitemap');
+
+Route::get('/unsubscribe/{user}', function (Request $request) {
+    if (!$request->hasValidSignature()) {
+        abort(401);
+    }
+
+    dd('Valied');
+    // ...
+})->name('unsubscribe');
 
 Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
