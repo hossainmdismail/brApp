@@ -24,7 +24,7 @@ use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\VariationController;
-use App\Http\Controllers\Admin\VariationOptionController;
+use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\CategoryController as ControllersCategoryController;
 
@@ -88,7 +88,7 @@ Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
     Route::resource('/product', App\Http\Controllers\Admin\ProductController::class);
     Route::resource('/coupon', App\Http\Controllers\Backend\CouponController::class);
     Route::resource('/shipping', ShippingController::class);
-    // Route::resource('/variation_option', VariationOptionController::class);
+    Route::resource('/attributes', AttributeController::class);
     Route::resource('/campaign-product', CampaignController::class);
     Route::resource('/employee', EmployeeController::class);
 });

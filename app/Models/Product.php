@@ -20,11 +20,6 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'category_id');
     }
 
-    function images()
-    {
-        return $this->hasMany(ProductPhoto::class, 'product_id');
-    }
-
     function services()
     {
         return $this->hasMany(ProductService::class, 'product_id');
@@ -40,14 +35,14 @@ class Product extends Model
         return $this->price - ($this->price * $this->discount / 100);
     }
 
-    public function stockItem()
-    {
-        return $this->hasMany(ProductQuantity::class, 'product_id');
-    }
+    // public function stockItem()
+    // {
+    //     return $this->hasMany(ProductQuantity::class, 'product_id');
+    // }
 
-    public function stock()
-    {
-        // Sum the 'qnt' values from the related 'ProductQuantity' records
-        return $this->stockItem()->sum('quantity');
-    }
+    // public function stock()
+    // {
+    //     // Sum the 'qnt' values from the related 'ProductQuantity' records
+    //     return $this->stockItem()->sum('quantity');
+    // }
 }

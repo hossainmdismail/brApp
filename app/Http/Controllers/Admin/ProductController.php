@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Models\Size;
+use App\Models\Color;
 use App\Models\Product;
+use App\Models\Service;
+use App\Models\Inventory;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ProductService;
+use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
 use App\Models\ProductQuantity;
-use App\Models\Service;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -28,6 +33,8 @@ class ProductController extends Controller
     {
         $service = Service::get();
         $categories = ProductCategory::get();
+        $color = Color::get();
+        $size = Size::get();
 
         if ($categories->isEmpty()) {
             return redirect()->route('category.create')->with('err', 'Add category before product');
@@ -35,37 +42,46 @@ class ProductController extends Controller
             return redirect()->route('variation.create')->with('err', 'Add service before product');
         }
 
-        return view('backend.product.create_product');
+        return view('backend.product.create_product', [
+            'categories'    => $categories,
+            'services'      => $service,
+            'colors'        => $color,
+            'sizes'         => $size,
+        ]);
     }
 
     public function store(Request $request)
     {
+
         $request->validate([
             'btn'               => 'required',
             'category_id'       => 'required|integer',
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
-            'price'             => 'required|array|present',
-            'price.*'           => 'required|integer',
-            'stock_price'       => 'required|array|present',
-            'stock_price.*'     => 'required|integer',
-            's_price'           => 'required|array|present',
-            's_price.*'         => 'required|integer',
-            'sp_type'           => 'required|array|present',
-            'sp_type.*'         => 'required|string',
-            'qnt'               => 'required|array|present',
-            'qnt.*'             => 'required|integer',
-            'color_id'          => 'required|array|present', // Validate color_id array is present
-            'color_id.*'        => 'required|integer', // Validate each element of color_id is an integer
-            'size_id'           => 'required|array|present', // Validate size_id array is present
-            'size_id.*'         => 'required|integer', // Validate each element of size_id is an integer
+            // 'price'             => 'required|array|present',
+            // 'price.*'           => 'required|integer',
+            // 'sku'               => 'required|array|present',
+            // 'sku.*'             => 'required',
+            // 'stock_price'       => 'required|array|present',
+            // 'stock_price.*'     => 'required|integer',
+            // 's_price'           => 'required|array|present',
+            // 's_price.*'         => 'required|integer',
+            // 'sp_type'           => 'required|array|present',
+            // 'sp_type.*'         => 'required|string',
+            // 'qnt'               => 'required|array|present',
+            // 'qnt.*'             => 'required|integer',
+            // 'color_id'          => 'required|array|present', // Validate color_id array is present
+            // 'color_id.*'        => 'required|integer', // Validate each element of color_id is an integer
+            // 'size_id'           => 'required|array|present', // Validate size_id array is present
+            // 'size_id.*'         => 'required|integer', // Validate each element of size_id is an integer
             'service'           => 'required|array|present',
-            'images'            => 'required|array|present',
+            // 'product_image.*'   => 'required',
+            // 'product_image'     => 'required',
         ]);
-        dd($request->all());
 
-        $sku = 'SK' . now()->format('mdH') . strtoupper(Str::random(4)) . now()->format('is');
+
+
         $slug = Str::slug($request->product_name);
 
         // Check if the slug already exists, append numeric value if necessary
@@ -78,60 +94,53 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-
             $product = new Product();
             $product->category_id       = $request->category_id;
             $product->name              = $request->product_name;
             $product->slugs             = $slug;
             $product->short_description = $request->short_description;
             $product->description       = $request->description;
-            $product->discount          = $request->discount;
-            $product->price             = $request->price;
             $product->video_link        = $request->link;
-            $product->qnt                = $request->qnt;
             $product->status            = $request->btn;
             $product->featured          = $request->featured == 'on' ? 1 : 0;
             $product->popular           = $request->popular == 'on' ? 1 : 0;
-            $product->sku               = $sku;
-            $product->qnt               = $request->qnt;
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
-            $product->sku               = 'SK' . now()->format('md') . strtoupper(Str::random(3)) . now()->format('Hi');
             $product->save();
 
             $product_id = $product->id;
 
-            // if ($product) {
+            if ($product) {
+                // foreach ($request->sku as $key => $sku) {
+                //     $variant = new Inventory();
+                //     $variant->product_id    = $product_id;
+                //     $variant->color_id      = $request->color_id[$key];
+                //     $variant->size_id       = $request->size_id[$key];
+                //     $variant->sku           = $sku;
+                //     $variant->image         = $sku; //Hold
+                //     $variant->stock_price   = $request->stock_price[$key];
+                //     $variant->price         = $request->price[$key];
+                //     $variant->s_price       = $request->s_price[$key];
+                //     $variant->sp_type       = $request->sp_type[$key];
+                //     $variant->qnt           = $request->qnt[$key];
+                //     $variant->total_qnt     = $request->qnt[$key];
+                //     $variant->save();
+                // }
 
-            //     $product_qnt = new ProductQuantity();
-            //     $product_qnt->product_id    = $product_id;
-            //     $product_qnt->quantity      = $request->qnt;
-            //     $product_qnt->sale_price    = $request->price;
-            //     $product_qnt->stock_price   = $request->stk_price;
-            //     $product_qnt->save();
-
-            //     foreach ($request->service as $service) {
-            //         ProductService::insert([
-            //             'product_id' => $product_id,
-            //             'service_id' => $service,
-            //             'created_at' => Carbon::now(),
-            //         ]);
-            //     }
-
-            //     foreach ($request->images as  $image) {
-            //         Photo::upload($image, 'files/product',  $product_id . 'PRO', [1100, 1100]);
-            //         ProductPhoto::insert([
-            //             'product_id'    => $product_id,
-            //             'image'         => Photo::$name,
-            //         ]);
-            //     }
-            // }
+                foreach ($request->service as $service) {
+                    ProductService::insert([
+                        'product_id' => $product_id,
+                        'service_id' => $service,
+                        'created_at' => Carbon::now(),
+                    ]);
+                }
+            }
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('err', 'Failed to add product, try again.');
+            return back()->with('err', $e->getMessage());
         }
 
         return back()->with('succ', 'Product added successfully');
@@ -144,10 +153,12 @@ class ProductController extends Controller
 
     public function edit(string $id)
     {
-        $services = Service::all();
-        $request = Product::find($id);
+        $services   = Service::all();
+        $request    = Product::find($id);
         $categories = ProductCategory::all();
-        return view('backend.product.edit_product', compact('request', 'categories', 'services'));
+        $colors     = Color::get();
+        $sizes      = Size::get();
+        return view('backend.product.edit_product', compact('request', 'categories', 'services', 'colors', 'sizes'));
     }
 
     public function update(Request $request, string $id)
@@ -213,7 +224,7 @@ class ProductController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('err', 'Failed to add product, try again.');
+            return $e;
         }
 
         return back()->with('succ', 'Update Successfully');

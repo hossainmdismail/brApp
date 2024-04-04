@@ -50,21 +50,21 @@
                             <tr>
                                 <td>
                                     {{ $request->name }}<br>
-                                    <strong style="font-size: 12px;"> SKU : <span style=" font-weight: 800">{{ $request->sku }} </span></strong>
+                                    <strong style="font-size: 12px;"> SKU : <span
+                                            style=" font-weight: 800">{{ $request->sku }} </span></strong>
                                 </td>
                                 {{-- <td><b>{{ $request->category ? $request->category->category_name : 'Unknow' }}</b></td> --}}
                                 <td>
-                                    @if ($request->images != null)
+                                    {{-- @if ($request->images != null)
                                         @foreach ($request->images as $img)
                                             <img class="rounded" style="width: 30px; height: 30px;"
                                                 src="{{ asset('files/product/' . $img->image) }}" alt="">
                                         @endforeach
-                                    @endif
+                                    @endif --}}
                                 </td>
                                 <td><b> <span>৳</span> {{ $request->price }} </b></td>
                                 <td>
-                                    <span
-                                        class="badge bg-info text-dark">{{ $request->qnt }}</span>
+                                    <span class="badge bg-info text-dark">{{ $request->qnt }}</span>
                                 </td>
                                 <td>
                                     <span
