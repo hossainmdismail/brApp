@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Inventory;
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Photo;
 
 class AttributeController extends Controller
 {
@@ -29,7 +33,45 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            'id'            => 'required|integer',
+            'sku'           => 'required|unique:inventories,sku',
+            'color_id'      => 'required|integer',
+            'size_id'       => 'required|integer',
+            'price'         => 'required|integer',
+            'stock_price'   => 'required|integer',
+            's_price'       => 'required|integer',
+            'sp_type'       => 'required',
+            'qnt'           => 'required|integer',
+            'image'         => 'required'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $inventory = new Inventory();
+            $inventory->product_id  = $request->id;
+            $inventory->sku         = $request->sku;
+            $inventory->color_id    = $request->color_id;
+            $inventory->size_id     = $request->size_id;
+            $inventory->price       = $request->price;
+            $inventory->stock_price = $request->stock_price;
+            $inventory->s_price     = $request->s_price;
+            $inventory->sp_type     = $request->sp_type;
+            $inventory->qnt         = $request->qnt;
+
+            //Upload Photo
+            Photo::upload($request->image, 'files/product', 'PRO' . $request->id, [400, 400]);
+            if (Photo::$name) {
+                $inventory->image   = Photo::$name;
+            }
+            $inventory->save();
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('err', $th->getMessage());
+        }
+        return back()->with('succ', 'Attributes added succesfully');
     }
 
     /**
@@ -43,17 +85,60 @@ class AttributeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Inventory $inventory)
+    public function edit($inventory): JsonResponse
     {
-        //
+        $data = Inventory::find($inventory);
+        if ($data) {
+            return response()->json($data);
+        } else {
+            return response()->json([
+                'status'     => 1,
+                'message'    => 'Data not found',
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inventory $inventory)
+    public function update(Request $request, $inventory)
     {
-        //
+        $request->validate([
+            'id'            => 'required|integer',
+            // 'sku'           => 'required',
+            'color_id'      => 'required|integer',
+            'size_id'       => 'required|integer',
+            'price'         => 'required|integer',
+            'stock_price'   => 'required|integer',
+            's_price'       => 'required|integer',
+            'sp_type'       => 'required',
+            // 'qnt'           => 'required|integer',
+            // 'image'         => 'required'
+        ]);
+
+        $attributes = Inventory::find($inventory);
+        if ($attributes) {
+            $attributes->color_id = $request->color_id;
+            $attributes->size_id = $request->size_id;
+            $attributes->price = $request->price;
+            $attributes->stock_price = $request->stock_price;
+            $attributes->s_price = $request->s_price;
+            $attributes->sp_type = $request->sp_type;
+            if ($request->qnt) {
+                $attributes->qnt = $attributes->qnt + $request->qnt;
+            }
+            if ($request->has('image')) {
+                //Delete Image
+                Photo::delete('files/product', $attributes->image);
+                //Upload Photo
+                Photo::upload($request->image, 'files/product', 'PRO-UP' . $request->id, [400, 400]);
+                $attributes->image = Photo::$name;
+            }
+            // $attributes->sp_price = $request->sp_price;
+            $attributes->save();
+            return back()->with('succ', 'Update successfully');
+        }
+        return back()->with('err', 'Attributes not found');
     }
 
     /**

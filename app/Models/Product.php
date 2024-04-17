@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'price',
         'qnt',
     ];
@@ -35,14 +35,19 @@ class Product extends Model
         return $this->price - ($this->price * $this->discount / 100);
     }
 
+    public function attributes()
+    {
+        return $this->hasMany(Inventory::class, 'product_id');
+    }
+
     // public function stockItem()
     // {
     //     return $this->hasMany(ProductQuantity::class, 'product_id');
     // }
 
-    // public function stock()
-    // {
-    //     // Sum the 'qnt' values from the related 'ProductQuantity' records
-    //     return $this->stockItem()->sum('quantity');
-    // }
+    public function stock()
+    {
+        // Sum the 'qnt' values from the related 'ProductQuantity' records
+        return $this->attributes()->sum('qnt');
+    }
 }

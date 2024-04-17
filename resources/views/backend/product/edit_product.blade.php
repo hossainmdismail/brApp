@@ -1,6 +1,7 @@
 @extends('backend.master')
 @section('style')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @endsection
 @section('content')
     <!-- Modal Color add -->
@@ -18,13 +19,112 @@
                         <div class="row">
                             <div class="mb-4 col-12">
                                 <label for="product_name" class="form-label">Product Image</label>
-                                <input type="file" class="form-control @error('sku') is-invalid @enderror"
+                                <input type="file" class="form-control @error('image') is-invalid @enderror"
+                                    name="image" value="{{ old('image') }}">
+                            </div>
+                            <div class="mb-4 col-12">
+                                <label for="product_name" class="form-label">SKU</label>
+                                <input type="text" placeholder="Entire Name"
+                                    class="form-control @error('sku') is-invalid @enderror" name="sku"
+                                    value="{{ old('sku') }}">
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="product_name" class="form-label">Color</label>
+                                <select name="color_id" class="form-select @error('color_id') is-invalid @enderror"
+                                    id="">
+                                    <option value="">Select Color</option>
+                                    @forelse ($colors as $color)
+                                        <option value="{{ $color->id }}"
+                                            @if (old('color_id') == $color->id) selected @endif>
+                                            {{ $color->name }}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="product_name" class="form-label">Size</label>
+                                <select name="size_id" id=""
+                                    class="form-select @error('size_id') is-invalid @enderror">
+                                    <option value="">Select Size</option>
+                                    @forelse ($sizes as $size)
+                                        <option value="{{ $size->id }}"
+                                            @if (old('size_id') == $size->id) selected @endif>
+                                            {{ $size->name }}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="mb-4 col-md-6">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="text" placeholder="Entire Name"
+                                    class="form-control @error('price') is-invalid @enderror" name="price"
+                                    value="{{ old('price') }}">
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="stock_price" class="form-label">Stock
+                                    Price</label>
+                                <input type="number" placeholder="Entire Name"
+                                    class="form-control @error('stock_price') is-invalid @enderror" name="stock_price"
+                                    value="{{ old('stock_price') }}">
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="s_price" class="form-label">Discount
+                                    Price</label>
+                                <input type="number" placeholder="Entire Name"
+                                    class="form-control @error('s_price') is-invalid @enderror" name="s_price"
+                                    value="{{ old('s_price') }}">
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="product_name" class="form-label">Type</label>
+                                <select name="sp_type" id=""
+                                    class="form-control @error('sp_type') is-invalid @enderror">
+                                    <option value="">Discount Type</option>
+                                    <option value="Fixed" @if (old('sp_type') == 'Fixed') selected @endif>Fixed</option>
+                                    <option value="Percent" @if (old('sp_type') == 'Percent') selected @endif>Percentage
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="qnt" class="form-label">Quantity</label>
+                                <input type="number" placeholder="0"
+                                    class="form-control @error('qnt') is-invalid @enderror" name="qnt"
+                                    value="{{ old('qnt') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Color add -->
+    <div class="modal fade show" id="editForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Attributes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" id="editFormFirst" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $request->id }}">
+                    <div class="modal-body row">
+                        <div class="row">
+                            <div class="mb-4 col-12">
+                                <label for="product_name" class="form-label">Product Image</label>
+                                <input type="file" class="form-control @error('image') is-invalid @enderror"
                                     name="image">
                             </div>
                             <div class="mb-4 col-12">
                                 <label for="product_name" class="form-label">SKU</label>
                                 <input type="text" placeholder="Entire Name"
-                                    class="form-control @error('sku') is-invalid @enderror" name="sku">
+                                    class="form-control @error('sku') is-invalid @enderror" name="sku" disabled>
                             </div>
                             <div class="mb-4 col-md-6">
                                 <label for="product_name" class="form-label">Color</label>
@@ -73,14 +173,23 @@
                                 <select name="sp_type" id=""
                                     class="form-control @error('sp_type') is-invalid @enderror">
                                     <option value="">Discount Type</option>
-                                    <option value="Fixed">Fixed</option>
-                                    <option value="Percentage">Percentage</option>
+                                    <option value="Fixed" @if (old('sp_type') == 'Fixed') selected @endif>Fixed
+                                    </option>
+                                    <option value="Percent" @if (old('sp_type') == 'Percent') selected @endif>Percentage
+                                    </option>
                                 </select>
+                            </div>
+                            <div class="mb-4 col-md-6">
+                                <label for="avlqnt" class="form-label">Available</label>
+                                <input type="number" placeholder="0"
+                                    class="form-control @error('avlqnt') is-invalid @enderror" name="avlqnt"
+                                    value="{{ old('avlqnt') }}" disabled>
                             </div>
                             <div class="mb-4 col-md-6">
                                 <label for="qnt" class="form-label">Quantity</label>
                                 <input type="number" placeholder="0"
-                                    class="form-control @error('qnt') is-invalid @enderror" name="qnt">
+                                    class="form-control @error('qnt') is-invalid @enderror" name="qnt"
+                                    value="{{ old('qnt') }}">
                             </div>
                         </div>
                     </div>
@@ -92,6 +201,7 @@
             </div>
         </div>
     </div>
+
     <section class="content-main">
 
         @if ($errors->any())
@@ -236,74 +346,76 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Product Name</th>
                                                 {{-- <th scope="col">Category Name</th> --}}
                                                 <th scope="col">Image</th>
+                                                <th scope="col">SKU</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Stock</th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Market Status</th>
+                                                <th scope="col">Discount</th>
                                                 <th scope="col"> Action </th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @forelse ($request->attributes as $attr)
+                                                <tr>
+                                                    <td>
+                                                        <img class="rounded" style="width: 30px; height: 30px;"
+                                                            src="{{ asset('files/product/' . $attr->image) }}"
+                                                            alt="">
+                                                    </td>
+                                                    <td>{{ $attr->color ? $attr->color->name : 'NULL' }} /
+                                                        {{ $attr->size ? $attr->size->name : 'NULL' }}</td>
+                                                    <td><b> <span>৳</span> {{ $attr->price }} </b></td>
+                                                    <td>
+                                                        <span class="badge bg-info text-dark">{{ $attr->qnt }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge bg-{{ $request->status == 'active' ? 'success' : 'warning' }}">{{ $request->status }}</span>
+                                                    </td>
+
+                                                    <td>
+                                                        {{ $attr->s_price }}
+                                                        {{ $attr->sp_type == 'Fixed' ? '৳' : '%' }}
+                                                    </td>
+                                                    <td>
+                                                        <a data-bs-val="{{ route('attributes.edit', $attr->id) }}"
+                                                            data-bs-peram="{{ $attr->id }}"
+                                                            class="badge p-1 editAttr">
+                                                            <?xml version="1.0" encoding="UTF-8"?>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" id="Outline"
+                                                                viewBox="0 0 24 24" width="16" height="16">
+                                                                <path
+                                                                    d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
+                                                                <path
+                                                                    d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
+                                                            </svg>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                            @endforelse
                                             <tr>
                                                 <td>
-                                                    {{ $request->name }}<br>
-                                                    <strong style="font-size: 12px;"> SKU : <span
-                                                            style=" font-weight: 800">{{ $request->sku }} </span></strong>
+
                                                 </td>
-                                                {{-- <td><b>{{ $request->category ? $request->category->category_name : 'Unknow' }}</b></td> --}}
+                                                <td></td>
                                                 <td>
-                                                    {{-- @if ($request->images != null)
-                                                    @foreach ($request->images as $img)
-                                                        <img class="rounded" style="width: 30px; height: 30px;"
-                                                            src="{{ asset('files/product/' . $img->image) }}" alt="">
-                                                    @endforeach
-                                                @endif --}}
-                                                </td>
-                                                <td><b> <span>৳</span> {{ $request->price }} </b></td>
-                                                <td>
-                                                    <span class="badge bg-info text-dark">{{ $request->qnt }}</span>
+                                                    <p class="font-weight-bold">Total Qnt</p>
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="badge bg-{{ $request->status == 'active' ? 'success' : 'warning' }}">{{ $request->status }}</span>
+                                                    <p class="font-weight-bold">{{ $request->stock() }}</p>
+                                                </td>
+                                                <td>
                                                 </td>
 
                                                 <td>
-                                                    <div class="form-check form-switch">
-                                                        <label class="form-check-label"
-                                                            for="flexSwitchCheckDefault">Feature</label>
-                                                        <input class="form-check-input"
-                                                            wire:click="featured({{ $request->id }})" type="checkbox"
-                                                            id="flexSwitchCheckDefault"
-                                                            {{ $request->featured == 1 ? 'checked' : '' }}>
-                                                    </div><br>
-                                                    <div class="form-check form-switch">
-                                                        <label class="form-check-label"
-                                                            for="flexSwitchCheckDefault">Popular</label>
-                                                        <input class="form-check-input"
-                                                            wire:click="popular({{ $request->id }})" type="checkbox"
-                                                            id="flexSwitchCheckDefault"
-                                                            {{ $request->popular == 1 ? 'checked' : '' }}>
-                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('product.edit', $request->id) }}"
-                                                        class="badge p-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                            height="18" viewBox="0 0 24 24">
-                                                            <path fill="black"
-                                                                d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20c4.182 0 7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4C7.818 4 4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12"
-                                                                opacity=".5" />
-                                                            <path fill="currentColor" fill-rule="evenodd"
-                                                                d="M8.25 12a3.75 3.75 0 1 1 7.5 0a3.75 3.75 0 0 1-7.5 0m1.5 0a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"
-                                                                clip-rule="evenodd" />
-                                                        </svg>
-                                                    </a>
                                                 </td>
                                             </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -322,5 +434,50 @@
             .catch(error => {
                 console.error(error);
             });
+
+
+        $('.editAttr').click(function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-bs-val');
+            var form = $('#editForm');
+
+            var peram = $(this).attr('data-bs-peram');
+
+            var url = "{{ route('attributes.update', ':peram') }}";
+            url = url.replace(':peram', peram);
+            console.log(url);
+
+            // Send AJAX request
+            $.ajax({
+                url: id,
+                type: 'GET',
+                success: function(response) {
+                    // Example: Assigning values to form inputs by name
+                    form.find('input[name="sku"]').val(response.sku);
+                    form.find('input[name="price"]').val(typeof response.price === 'string' ? response
+                        .price.replace(/\.00$/, '') : response.price);
+                    form.find('input[name="stock_price"]').val(typeof response.stock_price ===
+                        'string' ? response.stock_price.replace(/\.00$/, '') : response.stock_price);
+                    form.find('input[name="s_price"]').val(typeof response.s_price === 'string' ?
+                        response.s_price.replace(/\.00$/, '') : response.s_price);
+                    form.find('input[name="avlqnt"]').val(response.qnt);
+
+                    form.find('select[name="color_id"]').val(response.color_id);
+                    form.find('select[name="size_id"]').val(response.size_id);
+                    form.find('select[name="sp_type"]').val(response.sp_type);
+                    // Handle success response
+
+                    $('#editFormFirst').attr('action', url);
+                    // console.log();
+
+                    form.modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    // Handle error response
+                }
+            });
+
+        });
     </script>
 @endsection

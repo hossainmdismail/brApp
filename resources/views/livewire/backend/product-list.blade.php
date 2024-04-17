@@ -38,7 +38,6 @@
                             <th scope="col">Product Name</th>
                             {{-- <th scope="col">Category Name</th> --}}
                             <th scope="col">Image</th>
-                            <th scope="col">Price</th>
                             <th scope="col">Stock</th>
                             <th scope="col">Status</th>
                             <th scope="col">Market Status</th>
@@ -49,22 +48,19 @@
                         @foreach ($requests as $key => $request)
                             <tr>
                                 <td>
-                                    {{ $request->name }}<br>
-                                    <strong style="font-size: 12px;"> SKU : <span
-                                            style=" font-weight: 800">{{ $request->sku }} </span></strong>
+                                    {{ $request->name }}
                                 </td>
                                 {{-- <td><b>{{ $request->category ? $request->category->category_name : 'Unknow' }}</b></td> --}}
                                 <td>
-                                    {{-- @if ($request->images != null)
-                                        @foreach ($request->images as $img)
+                                    @if ($request->attributes != null)
+                                        @foreach ($request->attributes as $img)
                                             <img class="rounded" style="width: 30px; height: 30px;"
                                                 src="{{ asset('files/product/' . $img->image) }}" alt="">
                                         @endforeach
-                                    @endif --}}
+                                    @endif
                                 </td>
-                                <td><b> <span>৳</span> {{ $request->price }} </b></td>
                                 <td>
-                                    <span class="badge bg-info text-dark">{{ $request->qnt }}</span>
+                                    <span class="badge bg-info text-dark">{{ $request->stock() }}</span>
                                 </td>
                                 <td>
                                     <span

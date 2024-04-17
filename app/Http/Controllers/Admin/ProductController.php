@@ -59,25 +59,7 @@ class ProductController extends Controller
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
-            // 'price'             => 'required|array|present',
-            // 'price.*'           => 'required|integer',
-            // 'sku'               => 'required|array|present',
-            // 'sku.*'             => 'required',
-            // 'stock_price'       => 'required|array|present',
-            // 'stock_price.*'     => 'required|integer',
-            // 's_price'           => 'required|array|present',
-            // 's_price.*'         => 'required|integer',
-            // 'sp_type'           => 'required|array|present',
-            // 'sp_type.*'         => 'required|string',
-            // 'qnt'               => 'required|array|present',
-            // 'qnt.*'             => 'required|integer',
-            // 'color_id'          => 'required|array|present', // Validate color_id array is present
-            // 'color_id.*'        => 'required|integer', // Validate each element of color_id is an integer
-            // 'size_id'           => 'required|array|present', // Validate size_id array is present
-            // 'size_id.*'         => 'required|integer', // Validate each element of size_id is an integer
             'service'           => 'required|array|present',
-            // 'product_image.*'   => 'required',
-            // 'product_image'     => 'required',
         ]);
 
 
@@ -112,22 +94,6 @@ class ProductController extends Controller
             $product_id = $product->id;
 
             if ($product) {
-                // foreach ($request->sku as $key => $sku) {
-                //     $variant = new Inventory();
-                //     $variant->product_id    = $product_id;
-                //     $variant->color_id      = $request->color_id[$key];
-                //     $variant->size_id       = $request->size_id[$key];
-                //     $variant->sku           = $sku;
-                //     $variant->image         = $sku; //Hold
-                //     $variant->stock_price   = $request->stock_price[$key];
-                //     $variant->price         = $request->price[$key];
-                //     $variant->s_price       = $request->s_price[$key];
-                //     $variant->sp_type       = $request->sp_type[$key];
-                //     $variant->qnt           = $request->qnt[$key];
-                //     $variant->total_qnt     = $request->qnt[$key];
-                //     $variant->save();
-                // }
-
                 foreach ($request->service as $service) {
                     ProductService::insert([
                         'product_id' => $product_id,
@@ -163,14 +129,13 @@ class ProductController extends Controller
 
     public function update(Request $request, string $id)
     {
+
         $request->validate([
             'btn'               => 'required',
             'category_id'       => 'required|integer',
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
-            'price'             => 'required|integer',
-            'stk_price'         => 'required|integer',
 
         ]);
 
@@ -191,35 +156,13 @@ class ProductController extends Controller
             $product->slugs             = $slug;
             $product->short_description = $request->short_description;
             $product->description       = $request->description;
-            $product->discount          = $request->discount;
-            $product->price             = $request->price;
-            $product->video_link        = $request->link;
+            // $product->video_link        = $request->link;
             $product->status            = $request->btn;
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
 
-            // Update the related ProductQuantity based on the first item
-            $firstProductQuantity = $product->stockItem->sortByDesc('created_at')->first();
-
-            if ($request->qnt && $request->qnt != 0) {
-                //new qnt update
-                $productQuantity = new ProductQuantity();
-                $productQuantity->product_id  = $id;
-                $productQuantity->quantity    = $request->qnt;
-                $productQuantity->sale_price  = $request->price;
-                $productQuantity->stock_price = $request->stk_price;
-                $productQuantity->save();
-
-                //Product qnt update
-                $product->qnt = $product->qnt + $request->qnt;
-            } elseif ($firstProductQuantity) {
-                $firstProductQuantity->sale_price  = $request->price;
-                $firstProductQuantity->stock_price = $request->stk_price;
-            }
-
             $product->save();
-            $firstProductQuantity->save();
 
             DB::commit();
         } catch (\Exception $e) {
