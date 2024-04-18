@@ -14,7 +14,7 @@ class CheckoutController extends Controller
         // dd($val);
         $ids = [];
         foreach ($val['products'] as $value) {
-            $ids[] =$value->id;
+            $ids[] =$value['id'];
         }
 
         return view('frontend.checkout',[

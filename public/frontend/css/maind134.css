@@ -4479,6 +4479,7 @@ table .product-thumbnail img {
     width: 26px;
     height: 26px;
     border-radius: 40px;
+    border: 1px solid;
 }
 
 .color-filter.list-filter a span.product-color-white {

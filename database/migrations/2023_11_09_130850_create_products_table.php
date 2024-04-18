@@ -15,11 +15,11 @@ return new class extends Migration
             $table->string('slugs')->unique();
             $table->longText('short_description');
             $table->longText('description');
-            // $table->bigInteger('discount')->default(0);
-            // $table->decimal('price', 10, 2)->default(0.00);
             $table->string('video_link')->nullable();
-            // $table->string('sku')->nullable();
-            // $table->bigInteger('qnt')->default(0);
+            $table->decimal('stock_price', 10.0)->default(0);
+            $table->decimal('price', 10.0)->default(0);
+            $table->integer('s_price')->default(0);
+            $table->enum('sp_type', ['Fixed', 'Percent']);
             $table->integer('featured')->default(0);
             $table->integer('popular')->default(0);
             $table->enum('status', ['active', 'deactive']);

@@ -2,54 +2,64 @@
 
 namespace App\Livewire\Frontend;
 
-use App\Helpers\CookieSD;
 use App\Models\Product;
 use Livewire\Component;
+use App\Helpers\CookieSD;
 
 class ProductView extends Component
 {
-    public $id, $product, $price, $discount, $finalPrice, $type;
+    public $id, $product, $sizes = [], $quantity = 1, $color_id, $size_id;
 
-    public $qnts = 1;
+    protected $rules = [
+        'quantity'  => 'required|numeric|min:1|max:100', // Example: min value is 1 and max value is 100
+        'color_id'  => 'required',
+        'size_id'   => 'required',
+    ];
 
-    public function addToCart($productId, $qnt = null)
+    public function addToCart()
     {
-        // dd($this->qnts);
-        if (Product::find($productId)->stock_status == 0) {
-            return back();
+        $this->validate();
+
+        $data = $this->product->attributes()->where('color_id', $this->color_id)->where('size_id', $this->size_id)->first();
+        if ($data) {
+            CookieSD::addToCookie($data->id, $this->quantity);
+            $this->dispatch('post-created');
         }
-
-        $quantity = $qnt ? $qnt : 1;
-        CookieSD::addToCookie($productId, $quantity);
-        // Emit an event to notify other components
-        $this->dispatch('post-created');
     }
-
 
     public function mount()
     {
         // $this->name = Auth::user()->name;
         $this->product = Product::find($this->id);
-
-        if ($this->product->attributes->first()) {
-            $this->discount = $this->product->attributes->first()->getFinalPrice();
-            $this->price = $this->product->attributes->first()->s_price;
-            $this->finalPrice = $this->product->attributes->first()->price;
-            $this->type = $this->product->attributes->first()->sp_type;
-        } else {
-            $this->price = 0;
-        }
     }
 
-    public function incrementQuantity()
+
+    public function sizeByColor($id)
     {
-        $this->qnts++;
+        $this->color_id = $id;
+        $size = $this->product->getSizesByColor($id);
+        $this->sizes = $size;
+        $this->size_id = null;
     }
 
-    public function decrementQuantity()
+    public function sizeAction($id)
     {
-        $this->qnts--;
+        $this->size_id = $id;
+        // $data = $this->product->attributes()->where('color_id', $this->color_id)->where('size_id', $id)->first();
+        // if ($data) {
+        //     dd($data);
+        // }
     }
+
+    // public function incrementQuantity()
+    // {
+    //     $this->qnts++;
+    // }
+
+    // public function decrementQuantity()
+    // {
+    //     $this->qnts--;
+    // }
 
     public function orderNow($productId, $qnt = null)
     {

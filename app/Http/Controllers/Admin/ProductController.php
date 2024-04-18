@@ -6,13 +6,11 @@ use App\Models\Size;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\Service;
-use App\Models\Inventory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ProductService;
 use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
-use App\Models\ProductQuantity;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -60,6 +58,11 @@ class ProductController extends Controller
             'short_description' => 'required',
             'description'       => 'required',
             'service'           => 'required|array|present',
+            //new
+            'price'             => 'required|integer',
+            'stock_price'       => 'required|integer',
+            's_price'           => 'required|integer',
+            'sp_type'           => 'required',
         ]);
 
 
@@ -89,6 +92,12 @@ class ProductController extends Controller
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
+            //new
+            $product->price             = $request->price;
+            $product->stock_price       = $request->stock_price;
+            $product->s_price           = $request->s_price;
+            $product->sp_type           = $request->sp_type;
+
             $product->save();
 
             $product_id = $product->id;
@@ -136,6 +145,11 @@ class ProductController extends Controller
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
+            //new
+            'price'             => 'required|integer',
+            'stock_price'       => 'required|integer',
+            's_price'           => 'required|integer',
+            'sp_type'           => 'required',
 
         ]);
 
@@ -161,6 +175,11 @@ class ProductController extends Controller
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
+            //new
+            $product->price             = $request->price;
+            $product->stock_price       = $request->stock_price;
+            $product->s_price           = $request->s_price;
+            $product->sp_type           = $request->sp_type;
 
             $product->save();
 

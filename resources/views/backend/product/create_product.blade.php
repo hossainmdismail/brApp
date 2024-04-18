@@ -298,39 +298,72 @@
                                 <h4>Pricing / Features</h4>
                             </div>
                             <div class="card-body">
-                                <div class="mb-4">
-                                    @error('service')
-                                        <div class="text-danger">{{ $message }}*</div>
-                                    @enderror
-                                    <label for="product_name" class="form-label">Services</label>
+                                <div class="row">
+                                    <div class="mb-4 col-md-6">
+                                        <label for="price" class="form-label">Price</label>
+                                        <input type="text" placeholder="Entire Name"
+                                            class="form-control @error('price') is-invalid @enderror" name="price"
+                                            value="{{ old('price') }}">
+                                    </div>
+                                    <div class="mb-4 col-md-6">
+                                        <label for="stock_price" class="form-label">Stock
+                                            Price</label>
+                                        <input type="number" placeholder="Entire Name"
+                                            class="form-control @error('stock_price') is-invalid @enderror"
+                                            name="stock_price" value="{{ old('stock_price') }}">
+                                    </div>
+                                    <div class="mb-4 col-md-6">
+                                        <label for="s_price" class="form-label">Discount
+                                            Price</label>
+                                        <input type="number" placeholder="Entire Name"
+                                            class="form-control @error('s_price') is-invalid @enderror" name="s_price"
+                                            value="{{ old('s_price') }}">
+                                    </div>
+                                    <div class="mb-4 col-md-6">
+                                        <label for="product_name" class="form-label">Type</label>
+                                        <select name="sp_type" id=""
+                                            class="form-control @error('sp_type') is-invalid @enderror">
+                                            <option value="">Discount Type</option>
+                                            <option value="Fixed" @if (old('sp_type') == 'Fixed') selected @endif>Fixed
+                                            </option>
+                                            <option value="Percent" @if (old('sp_type') == 'Percent') selected @endif>
+                                                Percentage
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        @error('service')
+                                            <div class="text-danger">{{ $message }}*</div>
+                                        @enderror
+                                        <label for="product_name" class="form-label">Services</label>
 
-                                    <div class="mt-2">
-                                        @foreach ($services as $service)
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="service[]" type="checkbox"
-                                                    value="{{ $service->id }}" id="{{ $service->id }}">
-                                                <label class="form-check-label" style="font-size: 10.5px"
-                                                    for="{{ $service->id }}">
-                                                    {{ $service->message }} </label>
-                                            </div>
-                                        @endforeach
+                                        <div class="mt-2">
+                                            @foreach ($services as $service)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" name="service[]" type="checkbox"
+                                                        value="{{ $service->id }}" id="{{ $service->id }}">
+                                                    <label class="form-check-label" style="font-size: 10.5px"
+                                                        for="{{ $service->id }}">
+                                                        {{ $service->message }} </label>
+                                                </div>
+                                            @endforeach
 
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <div class="form-check form-switch">
+                                            <label class="form-check-label" for="checkFeatured">Feature</label>
+                                            <input class="form-check-input" name="featured" type="checkbox"
+                                                id="checkFeatured">
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <label class="form-check-label" for="checkPopular">Popular</label>
+                                            <input class="form-check-input" name="popular" type="checkbox"
+                                                id="checkPopular">
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="mb-4">
-                                    <div class="form-check form-switch">
-                                        <label class="form-check-label" for="checkFeatured">Feature</label>
-                                        <input class="form-check-input" name="featured" type="checkbox"
-                                            id="checkFeatured">
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <label class="form-check-label" for="checkPopular">Popular</label>
-                                        <input class="form-check-input" name="popular" type="checkbox"
-                                            id="checkPopular">
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
 

@@ -38,10 +38,10 @@ class AttributeController extends Controller
             'sku'           => 'required|unique:inventories,sku',
             'color_id'      => 'required|integer',
             'size_id'       => 'required|integer',
-            'price'         => 'required|integer',
-            'stock_price'   => 'required|integer',
-            's_price'       => 'required|integer',
-            'sp_type'       => 'required',
+            // 'price'         => 'required|integer',
+            // 'stock_price'   => 'required|integer',
+            // 's_price'       => 'required|integer',
+            // 'sp_type'       => 'required',
             'qnt'           => 'required|integer',
             'image'         => 'required'
         ]);
@@ -53,10 +53,10 @@ class AttributeController extends Controller
             $inventory->sku         = $request->sku;
             $inventory->color_id    = $request->color_id;
             $inventory->size_id     = $request->size_id;
-            $inventory->price       = $request->price;
-            $inventory->stock_price = $request->stock_price;
-            $inventory->s_price     = $request->s_price;
-            $inventory->sp_type     = $request->sp_type;
+            // $inventory->price       = $request->price;
+            // $inventory->stock_price = $request->stock_price;
+            // $inventory->s_price     = $request->s_price;
+            // $inventory->sp_type     = $request->sp_type;
             $inventory->qnt         = $request->qnt;
 
             //Upload Photo

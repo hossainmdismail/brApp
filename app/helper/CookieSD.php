@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\Product;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Request;
 
@@ -15,80 +15,121 @@ class CookieSD
 
         // Filter out invalid or non-numeric entries
         $productData = array_filter($productData, function ($item) {
-            return is_array($item) && isset($item['id']) && isset($item['quantity']) && is_numeric($item['id']) && is_numeric($item['quantity']);
+            return is_array($item) && isset($item['inventory_id']) && isset($item['quantity']) && is_numeric($item['inventory_id']) && is_numeric($item['quantity']);
         });
 
         return array_values($productData); // Reset array keys
     }
 
-    public static function addToCookie(int $productId, int $quantity): void
+    public static function addToCookie(int $inventoryId, int $quantity): void
     {
         $productData = self::getProductData();
 
-        $existingProductIndex = array_search($productId, array_column($productData, 'id'));
+        $existingProductIndex = array_search($inventoryId, array_column($productData, 'inventory_id'));
 
         if ($existingProductIndex !== false) {
             $newQuantity = $productData[$existingProductIndex]['quantity'] + max(1, $quantity);
 
-            if (!self::isQuantitySufficient($productId, $newQuantity)) {
+            if (!self::isQuantitySufficient($inventoryId, $newQuantity)) {
                 throw new \Exception('Insufficient quantity for the product.');
             }
 
             $productData[$existingProductIndex]['quantity'] = $newQuantity;
         } else {
-            if (!self::isQuantitySufficient($productId, max(1, $quantity))) {
+            if (!self::isQuantitySufficient($inventoryId, max(1, $quantity))) {
                 throw new \Exception('Insufficient quantity for the product.');
             }
 
-            $productData[] = ['id' => $productId, 'quantity' => max(1, $quantity)];
+            $productData[] = ['inventory_id' => $inventoryId, 'quantity' => max(1, $quantity)];
         }
 
         $encodedProductData = json_encode(array_values($productData));
         Cookie::queue(Cookie::forever('product_data', $encodedProductData));
     }
 
-    public static function removeFromCookie(int $productId): void
+    public static function decrement(int $inventoryId): void
     {
         $productData = self::getProductData();
 
-        // Filter out the product with the specified ID
-        $updatedProductData = array_filter($productData, function ($item) use ($productId) {
-            return $item['id'] !== $productId;
-        });
+        // Find the index of the product in the array
+        $existingProductIndex = array_search($inventoryId, array_column($productData, 'inventory_id'));
 
-        // Update the cookie with the modified product data
-        $encodedProductData = json_encode(array_values($updatedProductData)); // Reset array keys
-        Cookie::queue(Cookie::forever('product_data', $encodedProductData));
+        if ($existingProductIndex !== false) {
+            // If the product exists, reduce its quantity
+            $newQuantity = max(1, $productData[$existingProductIndex]['quantity'] - 1);
+
+            // Check if the new quantity is available
+            if (!self::isQuantitySufficient($inventoryId, $newQuantity)) {
+                throw new \Exception('Insufficient quantity available for the product.');
+            }
+
+            $productData[$existingProductIndex]['quantity'] = $newQuantity;
+
+            // If the quantity becomes zero or negative, remove the product from the array
+            if ($newQuantity <= 0) {
+                unset($productData[$existingProductIndex]);
+            }
+
+            // Update the cookie with the modified product data
+            $encodedProductData = json_encode($productData);
+            Cookie::queue(Cookie::forever('product_data', $encodedProductData));
+        }
     }
 
+    public static function increment(int $inventoryId): void
+    {
+        $productData = self::getProductData();
+
+        // Find the index of the product in the array
+        $existingProductIndex = array_search($inventoryId, array_column($productData, 'inventory_id'));
+
+        if ($existingProductIndex !== false) {
+            // If the product exists, increment its quantity
+            $newQuantity = $productData[$existingProductIndex]['quantity'] + 1;
+
+            // Check if the new quantity is available
+            if (!self::isQuantitySufficient($inventoryId, $newQuantity)) {
+                throw new \Exception('Insufficient quantity available for the product.');
+            }
+
+            $productData[$existingProductIndex]['quantity'] = $newQuantity;
+
+            // Update the cookie with the modified product data
+            $encodedProductData = json_encode($productData);
+            Cookie::queue(Cookie::forever('product_data', $encodedProductData));
+        }
+    }
 
     public static function data()
     {
         $cookie = self::getProductData();
 
         if (!empty($cookie)) {
-            $productIds = array_column($cookie, 'id'); // Extract product IDs from the $cookie array
+            $inventoryIds = array_column($cookie, 'inventory_id');
 
-            // Check if there are valid product IDs in the cookie
-            if (!empty($productIds)) {
-                $data = Product::query();
+            if (!empty($inventoryIds)) {
+                $inventoryItems = Inventory::whereIn('id', $inventoryIds)->get();
 
-                $products = $data->whereIn('id', $productIds)
-                    ->where('status', 1)
-                    ->get();
-
-                // Combine product data with quantities
-                $productsWithData = collect($cookie)->map(function ($cookieItem) use ($products) {
-                    $product = $products->where('id', $cookieItem['id'])->first();
+                $productsWithData = collect($cookie)->map(function ($cookieItem) use ($inventoryItems) {
+                    $inventoryItem = $inventoryItems->where('id', $cookieItem['inventory_id'])->first();
                     $quantity = max(1, $cookieItem['quantity']);
 
-                    if ($product) {
-                        $product->quantity = $quantity;
-                        $product->totalPrice = $product->finalPrice * $quantity; // Calculate total price for each product
-                        return $product;
+                    if ($inventoryItem) {
+                        // You can map the fields accordingly to your Inventory model
+                        return [
+                            'id'            => $inventoryItem->id,
+                            'name'          => $inventoryItem->product ? $inventoryItem->product->name : 'Unknown',
+                            'price'         => $inventoryItem->product ? $inventoryItem->product->getFinalPrice() : 0,
+                            'color'         => $inventoryItem->color ? $inventoryItem->color->name : 'Unknown',
+                            'size'          => $inventoryItem->size ? $inventoryItem->size->name : 'Unknown',
+                            'quantity'      => $quantity,
+                            'image'         => $inventoryItem->image,
+                            'totalPrice'    => $inventoryItem->product->getFinalPrice() * $quantity,
+                            // Add other fields as needed
+                        ];
                     }
 
-                    return null; // Handle the case where the product is not found
+                    return null; // Handle the case where the inventory item is not found
                 })->filter();
 
                 $totalPrice = $productsWithData->sum('totalPrice');
@@ -108,88 +149,28 @@ class CookieSD
         ];
     }
 
-    public static function decrement(int $productId): void
+    public static function removeFromCookie(int $inventoryId): void
     {
-        $product = Product::find($productId);
-
-        if (!$product) {
-            throw new \Exception('Product not found.');
-        }
-
         $productData = self::getProductData();
 
-        // Find the index of the product in the array
-        $existingProductIndex = array_search($productId, array_column($productData, 'id'));
+        // Filter out the product with the specified inventory ID
+        $updatedProductData = array_filter($productData, function ($item) use ($inventoryId) {
+            return $item['inventory_id'] !== $inventoryId;
+        });
 
-        if ($existingProductIndex !== false) {
-            // If the product exists, reduce its quantity
-            $newQuantity = max(1, $productData[$existingProductIndex]['quantity'] - 1);
-
-            // Check if the new quantity is available
-            if (!self::isQuantitySufficient($productId, $newQuantity)) {
-                throw new \Exception('Insufficient quantity available for the product.');
-            }
-
-            $productData[$existingProductIndex]['quantity'] = $newQuantity;
-
-            // If the quantity becomes zero or negative, remove the product from the array
-            if ($newQuantity <= 0) {
-                unset($productData[$existingProductIndex]);
-            }
-
-            // Update the cookie with the modified product data
-            $encodedProductData = json_encode($productData);
-            Cookie::queue(Cookie::forever('product_data', $encodedProductData));
-        }
+        // Update the cookie with the modified product data
+        $encodedProductData = json_encode(array_values($updatedProductData)); // Reset array keys
+        Cookie::queue(Cookie::forever('product_data', $encodedProductData));
     }
 
-    public static function increment(int $productId): void
+    private static function isQuantitySufficient(int $inventoryId, int $newQuantity): bool
     {
-        $product = Product::find($productId);
+        $inventoryItem = Inventory::find($inventoryId);
 
-        if (!$product) {
-            throw new \Exception('Product not found.');
+        if (!$inventoryItem) {
+            return false; // Handle the case where the inventory item is not found
         }
 
-        $productData = self::getProductData();
-
-        // Find the index of the product in the array
-        $existingProductIndex = array_search($productId, array_column($productData, 'id'));
-
-        if ($existingProductIndex !== false) {
-            // If the product exists, increment its quantity
-            $newQuantity = min($product->qnt, $productData[$existingProductIndex]['quantity'] + 1);
-
-            // Check if the new quantity is available
-            if (!self::isQuantitySufficient($productId, $newQuantity)) {
-                throw new \Exception('Insufficient quantity available for the product.');
-            }
-
-            $productData[$existingProductIndex]['quantity'] = $newQuantity;
-
-            // If the quantity becomes zero or negative, remove the product from the array
-            if ($newQuantity <= 0) {
-                unset($productData[$existingProductIndex]);
-            }
-
-            // Update the cookie with the modified product data
-            $encodedProductData = json_encode($productData);
-            Cookie::queue(Cookie::forever('product_data', $encodedProductData));
-        }
+        return $inventoryItem->qnt >= $newQuantity;
     }
-
-
-    private static function isQuantitySufficient(int $productId, int $newQuantity): bool
-{
-    // Retrieve the product from the database
-    $product = Product::find($productId);
-
-    if (!$product) {
-        // Handle the case where the product is not found
-        return false;
-    }
-
-    // Check if the available quantity is sufficient
-    return $product->qnt >= $newQuantity;
-}
 }

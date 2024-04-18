@@ -32,17 +32,25 @@ class Inventory extends Model
     {
         return $this->belongsTo(Size::class, 'size_id');
     }
-
-    public function getFinalPrice()
+    public function product()
     {
-        $totalDiscount = null;
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 
-        // Calculate discount based on special price type
-        if ($this->sp_type == 'Percent') {
-            $totalDiscount = $this->price - ($this->price * $this->s_price / 100);
-        } elseif ($this->sp_type == 'Fixed') {
-            $totalDiscount = $this->price - $this->s_price;
-        }
-        return $totalDiscount;
+    // public function getFinalPrice()
+    // {
+    //     $totalDiscount = null;
+
+    //     // Calculate discount based on special price type
+    //     if ($this->sp_type == 'Percent') {
+    //         $totalDiscount = $this->price - ($this->price * $this->s_price / 100);
+    //     } elseif ($this->sp_type == 'Fixed') {
+    //         $totalDiscount = $this->price - $this->s_price;
+    //     }
+    //     return $totalDiscount;
+    // }
+    public static function getSizesByColorId($colorId)
+    {
+        return Size::whereIn('id', static::where('color_id', $colorId)->pluck('size_id'))->get();
     }
 }

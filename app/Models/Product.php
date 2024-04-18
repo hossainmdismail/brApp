@@ -35,6 +35,19 @@ class Product extends Model
         return $this->price - ($this->price * $this->discount / 100);
     }
 
+    public function getFinalPrice()
+    {
+        $totalDiscount = null;
+
+        // Calculate discount based on special price type
+        if ($this->sp_type == 'Percent') {
+            $totalDiscount = $this->price - ($this->price * $this->s_price / 100);
+        } elseif ($this->sp_type == 'Fixed') {
+            $totalDiscount = $this->price - $this->s_price;
+        }
+        return $totalDiscount;
+    }
+
     public function attributes()
     {
         return $this->hasMany(Inventory::class, 'product_id');
@@ -49,5 +62,24 @@ class Product extends Model
     {
         // Sum the 'qnt' values from the related 'ProductQuantity' records
         return $this->attributes()->sum('qnt');
+    }
+
+    public function getUniqueColors()
+    {
+        // Retrieve unique colors associated with the product
+        return Color::whereIn('id', $this->attributes()->select('color_id')->groupBy('color_id'))->get();
+    }
+
+    public function getSizesByColor(int $color_id)
+    {
+        // Retrieve inventories for the product
+        $inventories = $this->attributes()->where('color_id', $color_id)->get();
+
+        // Extract unique size IDs from the filtered inventories
+        $sizeIds = $inventories->pluck('size_id')->unique()->toArray();
+
+        // Retrieve sizes based on the extracted size IDs
+        return Size::whereIn('id', $sizeIds)->get();
+        // return $inventories;
     }
 }

@@ -18,10 +18,6 @@ return new class extends Migration
             $table->integer('size_id')->nullable();
             $table->string('sku')->unique();
             $table->string('image')->nullable();
-            $table->decimal('stock_price', 10.0)->default(0);
-            $table->decimal('price', 10.0)->default(0);
-            $table->integer('s_price')->default(0);
-            $table->enum('sp_type', ['Fixed', 'Percent']);
             $table->bigInteger('total_qnt')->default(0);
             $table->bigInteger('qnt')->default(0);
             $table->timestamps();
