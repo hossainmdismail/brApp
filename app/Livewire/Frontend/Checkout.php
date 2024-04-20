@@ -7,6 +7,7 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Shipping;
 use App\Helpers\CookieSD;
+use App\Models\Inventory;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use App\Models\OrderProduct;
@@ -42,12 +43,19 @@ class Checkout extends Component
     }
 
 
-    public function increment($id){
-        CookieSD::increment($id);
-        $this->dispatch('post-created');
+    public function increment($id)
+    {
+
+        try {
+            CookieSD::increment($id);
+            $this->dispatch('post-created');
+        } catch (\Exception $e) {
+            $this->addError('err', $e->getMessage());
+        }
     }
 
-    public function decrement($id){
+    public function decrement($id)
+    {
         CookieSD::decrement($id);
         $this->dispatch('post-created');
     }
@@ -58,9 +66,10 @@ class Checkout extends Component
         $this->dispatch('post-created');
     }
 
-    public function save(){
+    public function save()
+    {
         $this->validate();
-        if($this->shippingPrice == 0){
+        if ($this->shippingPrice == 0) {
             return back();
         }
 
@@ -73,7 +82,7 @@ class Checkout extends Component
         $cookieData = CookieSD::data();
         $shipping_charge = Shipping::find($this->shipping_id);
 
-        $orderID = 'OD' . now()->format('md'). strtoupper(Str::random(4)).now()->format('Hs');
+        $orderID = 'OD' . now()->format('md') . strtoupper(Str::random(2)) . now()->format('Hs');
 
 
         try {
@@ -86,22 +95,22 @@ class Checkout extends Component
             $order->email               = $this->email;
             $order->address             = $this->address;
             $order->client_message      = $this->message;
-            $order->shipping_charge     = $shipping_charge?$shipping_charge->price:0;
-            $order->price               = $cookieData['price']+$this->shippingPrice;
+            $order->shipping_charge     = $shipping_charge ? $shipping_charge->price : 0;
+            $order->price               = $cookieData['price'] + $this->shippingPrice;
             $order->order_status        = 'pending';
             $order->payment_status      = 'processing';
             $order->save();
 
             foreach ($cookieData['products'] as $value) {
-                $product = Product::find($value->id);
-                $product->qnt = $product->qnt - $value->quantity;
+                $product = Inventory::find($value['id']);
+                $product->qnt = $product->qnt - $value['quantity'];
                 $product->save();
 
                 $order_product = new OrderProduct();
                 $order_product->order_id    = $order->id;
-                $order_product->product_id  = $value->id;
-                $order_product->price       = $value->price - ($value->price*$value->discount/100);
-                $order_product->qnt         = $value->quantity;
+                $order_product->product_id  = $value['id'];
+                $order_product->price       = $value['price'];
+                $order_product->qnt         = $value['quantity'];
                 $order_product->save();
             }
 
@@ -116,25 +125,23 @@ class Checkout extends Component
 
             $ids = [];
             foreach ($cookieData['products'] as $value) {
-                $ids[] =$value->id;
+                $ids[] = $value['id'];
             }
 
             return redirect()->route('thankyou')->with([
                 'data' => $cookieData,
                 'ids' => json_encode($ids),
             ]);
-
         } catch (\Exception $e) {
             DB::rollback();
 
             $this->addError('cart', 'try again later');
             return;
         }
-
-
     }
 
-    public function ship($id){
+    public function ship($id)
+    {
         $this->shipping_id = $id;
 
         $shipping = Shipping::find($id);

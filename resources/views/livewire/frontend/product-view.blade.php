@@ -39,14 +39,17 @@
                             {{ $service->service ? $service->service->message : null }}</li>
                     @endforeach
                 @endif
-                {{-- <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return Policy</li>
-            <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery available</li> --}}
             </ul>
         </div>
         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
         <form wire:submit.prevent="addToCart">
             @csrf
             {{-- Color --}}
+            @error('err')
+                <div class="mb-3"
+                    style="background: #d700000a; padding: 2px 10px 2px 10px; border-radius: 5px; border: 1px solid #DC3544;">
+                    {{ $message }}</div>
+            @enderror
             @error('color_id')
                 <span class="error text-danger" style="font-size: 12px">{{ $message }}</span>
             @enderror
@@ -82,30 +85,31 @@
                     @error('quantity')
                         <span class="error text-danger" style="font-size: 12px">{{ $message }}</span>
                     @enderror
-                    {{-- <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                    <span class="qty-val">1</span>
-                    <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a> --}}
                     <input type="number" id="inputQntValue" wire:model="quantity" min="1" max="50">
                 </div>
-                {{-- <input type="number" name="id" class="inputQntValue" value="{{ $product->id }}"> --}}
                 <div class="w-100 d-flex gap-3 flex-sm-row flex-column">
                     <button type="submit" wire:model="bnt" value="cart"
-                        class=" button d-block mb-md-3 button-add-to-cart">Add to cart</button>
-                    <button type="submit" wire:model="bnt" value="buy"
-                        class=" button d-block mb-3 button-add-to-cart">Order Now</button>
-                    {{-- <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a> --}}
+                        class=" button d-block mb-md-3 button-add-to-cart">Add to cart
+                        <span wire:loading wire:target="addToCart">...</span></button>
+                    <button type="submit" wire:click="orderNow" class=" button d-block mb-3 button-add-to-cart">Order
+                        Now</button>
                 </div>
                 </d>
-                {{-- @if ($config)
-                <a href="tel:{{ $config->number }}" class="btn btn-outline btn-sm text-primary">Call Us :
-                    {{ $config->number }}</a>
-            @endif --}}
 
                 <ul class="product-meta font-xs color-grey mt-50">
-                    <li>SKU :<span class="in-stock text-black ml-5">{{ $product->sku }}</span></li>
-                    <li>Availability :<span
-                            class="in-stock text-{{ $product->qnt > 0 ? 'success' : 'danger' }} ml-5">{{ $product->qnt }}
-                            Available</span></li>
+                    <li>SKU :<span class="in-stock text-black ml-5">{{ $sku }}</span></li>
+                    <li>Availability :
+                        @if ($stock == 0)
+                            <span
+                                class="in-stock text-{{ $product->stock() > 0 ? 'success' : 'danger' }} ml-5">{{ $product->stock() }}
+                                Available</span>
+                        @else
+                            <span class="in-stock text-success ml-5">{{ $stock }}
+                                Available</span>
+                        @endif
+
+
+                    </li>
                 </ul>
             </div>
         </form>

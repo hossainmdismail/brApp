@@ -13,6 +13,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
+                        @error('err')
+                            <div class="mb-3"
+                                style="background: #d700000a; padding: 2px 10px 2px 10px; border-radius: 5px; border: 1px solid #DC3544;">
+                                {{ $message }}</div>
+                        @enderror
                         <table class="table shopping-summery text-center clean">
                             <thead>
                                 <tr class="main-heading">
@@ -31,7 +36,10 @@
                                                 src="{{ asset('files/product/' . $product['image']) }}" alt="#">
                                         </td>
                                         <td class="product-des product-name">
-                                            <h5 class="product-name"><a>{{ $product['name'] }}</a>
+                                            <h5 class="product-name"><a>{{ $product['name'] }} <br>
+                                                    <span
+                                                        style="font-size: 11px; text-align: left">{{ $product['color'] . ' / ' . $product['size'] }}</span>
+                                                </a>
                                             </h5>
                                         </td>
                                         <td class="price" data-title="Price"><span>৳ {{ $product['price'] }} </span>
@@ -55,7 +63,6 @@
                                                     class="fi-rs-trash"></i></a></td>
                                     </tr>
                                 @endforeach
-                                {{ $products['products'] }}
                             </tbody>
                         </table>
                     </div>

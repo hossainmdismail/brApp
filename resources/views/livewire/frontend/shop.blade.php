@@ -13,7 +13,10 @@
                 <div class="col-lg-9">
                     <div class="shop-product-fillter">
                         <div class="totall-product">
-                            <p> We found <strong class="text-brand"> <span wire:loading.remove>{{ $products->count() }}</span> <span wire:loading class="spinner-border spinner-border-sm text-secondary" role="status"></span></strong> items for you!</p>
+                            <p> We found <strong class="text-brand"> <span
+                                        wire:loading.remove>{{ $products->count() }}</span> <span wire:loading
+                                        class="spinner-border spinner-border-sm text-secondary"
+                                        role="status"></span></strong> items for you!</p>
                         </div>
                         <div class="sort-by-product-area">
                             <div class="sort-by-cover mr-10">
@@ -22,7 +25,8 @@
                                         <span><i class="fi-rs-apps"></i>Show:</span>
                                     </div>
                                     <div class="sort-by-dropdown-wrap">
-                                        <span> {{ $paginateCount != null? $paginateCount:10 }} <i class="fi-rs-angle-small-down"></i></span>
+                                        <span> {{ $paginateCount != null ? $paginateCount : 10 }} <i
+                                                class="fi-rs-angle-small-down"></i></span>
                                     </div>
                                 </div>
                                 <div class="sort-by-dropdown">
@@ -34,32 +38,13 @@
                                     </ul>
                                 </div>
                             </div>
-                            {{-- <div class="sort-by-cover">
-                                <div class="sort-by-product-wrap">
-                                    <div class="sort-by">
-                                        <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
-                                    </div>
-                                    <div class="sort-by-dropdown-wrap">
-                                        <span> Featured <i class="fi-rs-angle-small-down"></i></span>
-                                    </div>
-                                </div>
-                                <div class="sort-by-dropdown">
-                                    <ul>
-                                        <li><a class="active" href="#">Featured</a></li>
-                                        <li><a href="#">Price: Low to High</a></li>
-                                        <li><a href="#">Price: High to Low</a></li>
-                                        <li><a href="#">Release Date</a></li>
-                                        <li><a href="#">Avg. Rating</a></li>
-                                    </ul>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
 
                     <div class="row product-grid-3">
                         @foreach ($products as $product)
-                        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                <x-product :product="$product"/>
+                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                <x-product :product="$product" />
                             </div>
                         @endforeach
                     </div>
@@ -80,7 +65,9 @@
                         <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
                         <ul class="categories">
                             @forelse ($categories as $category)
-                                <li><a href="{{ route('front.category',$category->slugs) }}">{{ $category->category_name }}</a></li>
+                                <li><a
+                                        href="{{ route('front.category', $category->slugs) }}">{{ $category->category_name }}</a>
+                                </li>
                             @empty
                             @endforelse
                         </ul>
@@ -94,12 +81,14 @@
                         @forelse ($featured as $item)
                             <div class="single-post clearfix">
                                 <div class="image">
-                                    @if ($item->images->first())
-                                        <img src="{{ asset('files/product/' . $item->images->first()->image) }}" alt="#">
+                                    @if ($item->attributes->first())
+                                        <img src="{{ asset('files/product/' . $item->attributes->first()->image) }}"
+                                            alt="#">
                                     @endif
                                 </div>
                                 <div class="content pt-10">
-                                    <h5><a href="{{ route('product.view', $item->slugs) }}">{{ $item->name }}</a></h5>
+                                    <h5><a href="{{ route('product.view', $item->slugs) }}">{{ $item->name }}</a>
+                                    </h5>
                                     <p class="price mb-0 mt-5">{{ $item->name }}</p>
 
                                 </div>
@@ -108,14 +97,6 @@
                             No Data Found
                         @endforelse
                     </div>
-                    {{-- <div class="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
-                        <img src="{{ asset('files/campaign/'.$horizontal->campaign_image) }}" alt="">
-                        <div class="banner-text">
-                            <span>{{ $horizontal->campaign_for }}</span>
-                            <h4>{{ $horizontal->campaign_name }}</h4>
-                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>

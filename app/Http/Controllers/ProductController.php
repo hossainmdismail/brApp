@@ -11,9 +11,10 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 
 class ProductController extends Controller
 {
-    public function single($slugs){
+    public function single($slugs)
+    {
 
-        $product = Product::where('slugs',$slugs)->first();
+        $product = Product::where('slugs', $slugs)->first();
         $config = Config::first();
         $relatedProduct = null;
         if ($product->category) {
@@ -30,14 +31,15 @@ class ProductController extends Controller
             SEOMeta::setCanonical($config->url . request()->getPathInfo());
         }
 
-        return view('frontend.productView',[
+        return view('frontend.productView', [
             'product' => $product,
             'related' => $relatedProduct,
             'config'  => $config
         ]);
     }
 
-    public function cart(Request $request){
+    public function cart(Request $request)
+    {
         // dd($request->all());
         $request->validate([
             'qnt'   => 'required',
@@ -58,11 +60,10 @@ class ProductController extends Controller
 
 
             if ($request->btn == 'buy') {
-                return redirect()->route('checkout')->with(['add',$product]);
+                return redirect()->route('checkout')->with(['add', $product]);
             }
 
-            return back()->with(['add'=> $product ,'qnt' => $request->qnt]);
+            return back()->with(['add' => $product, 'qnt' => $request->qnt]);
         }
     }
-
 }

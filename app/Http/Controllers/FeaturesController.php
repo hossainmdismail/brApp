@@ -9,15 +9,16 @@ use App\Models\Campaign;
 
 class FeaturesController extends Controller
 {
-    function features(){
+    function features()
+    {
         $category = ProductCategory::all(); //Getting Category
         $featured   = Product::where('featured', 1)->latest()->get()->take(4);
-        $ads = Campaign::where('image_type','horizontal')->first();
+        $ads = Campaign::where('image_type', 'horizontal')->first();
 
         $product = Product::query();
-        $products = $product->where('featured',1)->paginate(12);
+        $products = $product->where('featured', 1)->paginate(12);
 
-        return view('frontend.features',[
+        return view('frontend.features', [
             'products'      => $products,
             'categories'    => $category,
             'featured'      => $featured,
@@ -25,15 +26,16 @@ class FeaturesController extends Controller
         ]);
     }
 
-    function hot(){
-        $category = ProductCategory::all(); //Getting Category
+    function hot()
+    {
+        $category = ProductCategory::all();
         $featured   = Product::where('featured', 1)->latest()->get()->take(4);
-        $ads = Campaign::where('image_type','horizontal')->first();
+        $ads = Campaign::where('image_type', 'horizontal')->first();
 
         $product = Product::query();
-        $products = $product->where('popular',1)->paginate(12);
+        $products = $product->where('popular', 1)->paginate(12);
 
-        return view('frontend.hot',[
+        return view('frontend.hot', [
             'products'      => $products,
             'categories'    => $category,
             'featured'      => $featured,
