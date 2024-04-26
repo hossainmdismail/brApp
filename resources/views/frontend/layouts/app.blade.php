@@ -8,6 +8,7 @@ $link = CustomLink::first();
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -16,16 +17,27 @@ $link = CustomLink::first();
     <meta name="author" content="Familly Bazar">
     {!! SEO::generate() !!}
     @if ($config)
-        <link rel="shortcut icon" href="{{ asset('files/config/'.$config->logo) }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('files/config/' . $config->logo) }}" type="image/x-icon">
     @endif
     <link rel='stylesheet' href='{{ asset('frontend/css/icon.css') }}'>
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/maind134.css?v=3.4">
-    {!! $link? $link->header:null !!}
+    {!! $link ? $link->header : null !!}
     @yield('style')
     @livewireStyles
 </head>
 
 <body class="relative">
+    <!-- Modal -->
+    <div class="modal" id="searchModal" tabindex="-1" role="dialog" style="z-index: 999999">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    {{-- Product Search --}}
+                    @livewire('frontend.search')
+                </div>
+            </div>
+        </div>
+    </div>
     @include('frontend.layouts.header')
 
     @yield('content')
@@ -33,7 +45,7 @@ $link = CustomLink::first();
     @include('frontend.layouts.footer')
 
     @yield('script')
-    {!! $link? $link->body:null !!}
+    {!! $link ? $link->body : null !!}
 
     <!-- Vendor JS-->
     <script src="{{ asset('frontend') }}/js/vendor/modernizr-3.6.0.min.js"></script>
@@ -59,7 +71,41 @@ $link = CustomLink::first();
     <!-- Template  JS -->
     <script src="{{ asset('frontend') }}/js/maind134.js?v=3.4"></script>
     <script src="{{ asset('frontend') }}/js/shopd134.js?v=3.4"></script>
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get all input fields with the class 'openSearchModal'
+            var openSearchInputs = document.getElementsByClassName('openSearchModal');
+            var searchModal = document.getElementById('searchModal');
+
+            // Loop through each input field and attach event listeners
+            for (var i = 0; i < openSearchInputs.length; i++) {
+                openSearchInputs[i].addEventListener('click', toggleModal);
+                openSearchInputs[i].addEventListener('focus', toggleModal);
+            }
+
+            // Function to toggle the modal display
+            function toggleModal() {
+                searchModal.style.display = 'block';
+            }
+
+            // Close the modal when the close button is clicked
+            searchModal.addEventListener('click', function(event) {
+                if (event.target === searchModal) {
+                    searchModal.style.display = 'none';
+                }
+            });
+
+            // Close the modal when the Escape key is pressed
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    searchModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
     @livewireScripts
 
 </body>
+
 </html>

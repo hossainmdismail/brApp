@@ -31,9 +31,15 @@
         </div>
         <h2><a href="{{ route('product.view', $product->slugs) }}">{{ $product->name }}</a>
         </h2>
+        <div class="rating-result" title="50%">
+            <span>
+                <span>({{ count($product->comments) }})</span>
+            </span>
+        </div>
         <div class="product-price">
             <span>৳ {{ number_format($product->getFinalPrice()) }}</span>
         </div>
+
         <div class="product-action-1 show">
             <a href="{{ route('product.view', $product->slugs) }}" aria-label="Order now" class="action-btn hover-up"
                 href="shop-cart.html"><i class="fi fi-rr-shopping-cart"></i></a>

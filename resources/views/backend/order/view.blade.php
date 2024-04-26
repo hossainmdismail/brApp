@@ -1,5 +1,6 @@
 @php
-    function getStatusColor($status) {
+    function getStatusColor($status)
+    {
         switch ($status) {
             case 'pending':
                 return 'warning';
@@ -24,183 +25,199 @@
 @extends('backend.master')
 
 @section('content')
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Payment</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('add.payment') }}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="">Payment Status</label>
+                            <select class="form-control" name="payment_status" id="">
+                                <option value="">Select Status</option>
+                                <option value="due">Due</option>
+                                <option value="paid">Paid</option>
+                                <option value="cancel">Cancel</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="">Payment method</label>
+                            <select class="form-control" name="type" id="">
+                                <option value="">Select method</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Bkash">Bkash</option>
+                                <option value="Nagad">Nagad</option>
+                                <option value="Bank">Bank</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="">Transaction ID</label>
+                            <input class="form-control" type="text" name="transaction_id"
+                                placeholder="Transaction number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="">Amount</label>
+                            <input class="form-control" type="number" name="price" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">+ Add payment</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <form action="{{ route('add.payment') }}" method="post">
-            @csrf
-            <div class="modal-body">
-                <div class="mb-3">
-                    <input type="hidden" name="order_id" value="{{ $order->id }}">
-                </div>
-                <div class="mb-3">
-                    <label for="">Payment Status</label>
-                    <select class="form-control" name="payment_status" id="">
-                        <option value="">Select Status</option>
-                        <option value="due">Due</option>
-                        <option value="paid">Paid</option>
-                        <option value="cancel">Cancel</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="">Payment method</label>
-                    <select class="form-control" name="type" id="">
-                        <option value="">Select method</option>
-                        <option value="Cash">Cash</option>
-                        <option value="Bkash">Bkash</option>
-                        <option value="Nagad">Nagad</option>
-                        <option value="Bank">Bank</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="">Transaction ID</label>
-                    <input class="form-control" type="text" name="transaction_id" placeholder="Transaction number">
-                </div>
-                <div class="mb-3">
-                    <label for="">Amount</label>
-                    <input class="form-control" type="number" name="price" placeholder="0.00">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">+ Add payment</button>
-            </div>
-        </form>
-      </div>
     </div>
-  </div>
 
-<form class="content-main" action="{{ route('admin.order.modify') }}" method="POST">
-    @csrf
-    <input type="hidden"  name="id" value="{{ $order->id }}">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Order detail</h2>
-            <p>Details for Order ID: {{ $order->order_id }}</p>
-        </div>
-        <div>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Add payment
-            </button>
-            <a class="btn btn-danger" href="{{ route('admin.order') }}">Back</a>
-        </div>
-    </div>
-    <div class="card">
-        <header class="card-header">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-                    <span>
-                        <i class="material-icons md-calendar_today"></i> <b>{{ $order->created_at->format('D, M j, Y, g:iA') }}</b>
-                    </span> <br>
-                    <small class="text-muted">Order ID: {{ $order->order_id }}</small>
-                </div>
-                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                    <select name="status" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
-                        <option value="">Change {{ $order->order_status }}</option>-
-                        {{-- <option value="pending">Pending</option> --}}
-                        <option value="processing" {{ $order->order_status == 'processing'?'selected':'' }}>Processing</option>
-                        <option value="shipping" {{ $order->order_status == 'shipping'?'selected':'' }}>Shipping</option>
-                        <option value="return" {{ $order->order_status == 'return'?'selected':'' }}>Return</option>
-                        <option value="cancel" {{ $order->order_status == 'cancel'?'selected':'' }}>cancel</option>
-                        <option value="damage" {{ $order->order_status == 'damage'?'selected':'' }}>Damage</option>
-                        <option value="delieverd" {{ $order->order_status == 'delieverd'?'selected':'' }}>Delieverd</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary" name="btn" value="1">Save</button>
-                    <button class="btn btn-secondary print ms-2" name="btn" value="2"><i class="icon material-icons md-print"></i></button>
-                </div>
+    <form class="content-main" action="{{ route('admin.order.modify') }}" method="POST">
+        @csrf
+        <input type="hidden" name="id" value="{{ $order->id }}">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Order detail</h2>
+                <p>Details for Order ID: {{ $order->order_id }}</p>
             </div>
-        </header> <!-- card-header end// -->
-        <div class="card-body">
-            <div class="row mb-50 mt-20 order-info-wrap">
-                <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-person"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Customer</h6>
-                            <p class="mb-1">
-                                {{ $order->name }} <br>
-                                {{ $order->number }}<br>
-                                @if ($order->email)
-                                    {{ $order->email }} <br>
-                                @endif
-                                <span style="font-size: 14px">
-                                    {{ $order->client_message }}
-                                </span>
-                            </p>
-                            {{-- <a href="#">View profile</a> --}}
-                        </div>
-                    </article>
-                </div> <!-- col// -->
-                <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-local_shipping"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Order info</h6>
-                            <p class="mb-1">
-                                Pay method: Cash on delivery <br>
+            <div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add payment
+                </button>
+                <a class="btn btn-danger" href="{{ route('admin.order') }}">Back</a>
+            </div>
+        </div>
+        <div class="card">
+            <header class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                        <span>
+                            <i class="material-icons md-calendar_today"></i>
+                            <b>{{ $order->created_at->format('D, M j, Y, g:iA') }}</b>
+                        </span> <br>
+                        <small class="text-muted">Order ID: {{ $order->order_id }}</small>
+                    </div>
+                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                        <select name="status" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                            <option value="">Change {{ $order->order_status }}</option>-
+                            {{-- <option value="pending">Pending</option> --}}
+                            <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>
+                                Processing
+                            </option>
+                            <option value="shipping" {{ $order->order_status == 'shipping' ? 'selected' : '' }}>Shipping
+                            </option>
+                            <option value="return" {{ $order->order_status == 'return' ? 'selected' : '' }}>Return</option>
+                            <option value="cancel" {{ $order->order_status == 'cancel' ? 'selected' : '' }}>cancel</option>
+                            <option value="damage" {{ $order->order_status == 'damage' ? 'selected' : '' }}>Damage</option>
+                            <option value="delieverd" {{ $order->order_status == 'delieverd' ? 'selected' : '' }}>Delieverd
+                            </option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" name="btn" value="1">Save</button>
+                        <button class="btn btn-secondary print ms-2" name="btn" value="2"><i
+                                class="icon material-icons md-print"></i></button>
+                    </div>
+                </div>
+            </header> <!-- card-header end// -->
+            <div class="card-body">
+                <div class="row mb-50 mt-20 order-info-wrap">
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-person"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Customer</h6>
+                                <p class="mb-1">
+                                    {{ $order->name }} <br>
+                                    {{ $order->number }}<br>
+                                    @if ($order->email)
+                                        {{ $order->email }} <br>
+                                    @endif
+                                    <span style="font-size: 14px">
+                                        {{ $order->client_message }}
+                                    </span>
+                                </p>
+                                {{-- <a href="#">View profile</a> --}}
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-local_shipping"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Order info</h6>
+                                <p class="mb-1">
+                                    Pay method: Cash on delivery <br>
                                 <div class="d-flex gap-2">
-                                    Status: <span style="width: fit-content;font-size: 12px" class="badge badge-sm rounded-pill alert-{{ getStatusColor($order->order_status) }} text-success"> {{ $order->order_status }} </span>
+                                    Status: <span style="width: fit-content;font-size: 12px"
+                                        class="badge badge-sm rounded-pill alert-{{ getStatusColor($order->order_status) }} text-success">
+                                        {{ $order->order_status }} </span>
                                 </div>
-                            </p>
-                            {{-- <a href="#">Download info</a> --}}
-                        </div>
-                    </article>
-                </div> <!-- col// -->
-                <div class="col-md-4">
-                    <article class="icontext align-items-start">
-                        <span class="icon icon-sm rounded-circle bg-primary-light">
-                            <i class="text-primary material-icons md-place"></i>
-                        </span>
-                        <div class="text">
-                            <h6 class="mb-1">Deliver to</h6>
-                            <p class="mb-1">
-                                {{ $order->address }}
-                            </p>
-                            {{-- <a href="#">View profile</a> --}}
-                        </div>
-                    </article>
-                </div> <!-- col// -->
-            </div> <!-- row // -->
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th width="40%">Product</th>
-                                    <th width="20%">Unit Price</th>
-                                    <th width="20%">Quantity</th>
-                                    <th width="20%" class="text-end">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($order->products as $product)
+                                </p>
+                                {{-- <a href="#">Download info</a> --}}
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-place"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Deliver to</h6>
+                                <p class="mb-1">
+                                    {{ $order->address }}
+                                </p>
+                                {{-- <a href="#">View profile</a> --}}
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                </div> <!-- row // -->
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <a class="itemside" href="#">
-                                                {{-- <div class="left">
+                                        <th width="40%">Product</th>
+                                        <th width="20%">Unit Price</th>
+                                        <th width="20%">Quantity</th>
+                                        <th width="20%" class="text-end">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($order->products as $product)
+                                        <tr>
+                                            <td>
+                                                <a class="itemside" href="#">
+                                                    {{-- <div class="left">
                                                     <img src="assets/imgs/items/1.jpg" width="40" height="40" class="img-xs" alt="Item">
                                                 </div> --}}
-                                                <div class="info"> {{ $product->product?$product->product->name:'Unknown' }} </div>
-                                            </a>
-                                        </td>
-                                        <td>৳ {{ $product->price }} </td>
-                                        <td>৳ {{ $product->qnt }} </td>
-                                        <td class="text-end">৳ {{ $product->price * $product->qnt }} </td>
-                                    </tr>
-                                @empty
-                                    No Data Found
-                                @endforelse
+                                                    <div class="info">
+                                                        @if ($product->product)
+                                                            {{ $product->product->product->name }}
+                                                            <br>
+                                                            <span
+                                                                style="font-size: 11px;color:gray">{{ $product->product->color ? $product->product->color->name : 'Unknown' }}/{{ $product->product->size ? $product->product->size->name : 'Unknown' }}</span>
+                                                        @endif
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td>৳ {{ $product->price }} </td>
+                                            <td>৳ {{ $product->qnt }} </td>
+                                            <td class="text-end">৳ {{ $product->price * $product->qnt }} </td>
+                                        </tr>
+                                    @empty
+                                        No Data Found
+                                    @endforelse
                                     <tr>
                                         <td colspan="4">
                                             <article class="float-end">
@@ -218,55 +235,60 @@
                                                 </dl>
                                                 @if ($order->payment)
                                                     <dl class="dlist">
-                                                        <dt >Paid:</dt>
+                                                        <dt>Paid:</dt>
                                                         <dd class="text-success">
                                                             ৳ {{ $order->totalPayment() }}
                                                         </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Due:</dt>
-                                                        <dd> <b class="h5">৳ {{ number_format($order->price - $order->totalPayment()) }}</b> </dd>
+                                                        <dd> <b class="h5">৳
+                                                                {{ number_format($order->price - $order->totalPayment()) }}</b>
+                                                        </dd>
                                                     </dl>
                                                 @endif
                                             </article>
                                         </td>
                                     </tr>
-                            </tbody>
-                        </table>
-                    </div> <!-- table-responsive// -->
-                    {{-- <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a> --}}
-                </div> <!-- col// -->
-                <div class="col-lg-1"></div>
-                <div class="col-lg-4">
-                    <div class="box shadow-sm bg-light">
-                        <h6 class="mb-15">Payment info</h6>
-                        <p class="badge rounded-pill alert-{{ $order->payment_status == 'cancel'?'danger':'success' }}">{{ $order->payment_status }}</p>
-                        @if ($order->payment)
-                            @foreach ($order->payment as $value)
-                            <hr>
-                            <p>
-                                {{ $value->payment_type }} : {{ $value->transaction_id }} <br>
-                                Paid : <span style="font-weight: 800;"> ৳ {{ $value->price }}</span> <br>
-                                <span style="font-size: 12px">{{ $value->created_at->format('D M d - g:i A') }}</span>
-                            </p>
-                            @endforeach
-                        @endif
-                    </div>
-                    {{-- <div class="h-25 pt-4 mb-3">
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive// -->
+                        {{-- <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a> --}}
+                    </div> <!-- col// -->
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4">
+                        <div class="box shadow-sm bg-light">
+                            <h6 class="mb-15">Payment info</h6>
+                            <p
+                                class="badge rounded-pill alert-{{ $order->payment_status == 'cancel' ? 'danger' : 'success' }}">
+                                {{ $order->payment_status }}</p>
+                            @if ($order->payment)
+                                @foreach ($order->payment as $value)
+                                    <hr>
+                                    <p>
+                                        {{ $value->payment_type }} : {{ $value->transaction_id }} <br>
+                                        Paid : <span style="font-weight: 800;"> ৳ {{ $value->price }}</span> <br>
+                                        <span
+                                            style="font-size: 12px">{{ $value->created_at->format('D M d - g:i A') }}</span>
+                                    </p>
+                                @endforeach
+                            @endif
+                        </div>
+                        {{-- <div class="h-25 pt-4 mb-3">
                         <div class="mb-3">
                             <label>Customer Message</label>
                             <textarea class="form-control" name="notes" id="notes" placeholder="Type some note">{{ $order->client_message }}</textarea>
                         </div>
                     </div> --}}
-                    <div class="h-25 pt-4">
-                        <div class="mb-3">
-                            <label>Admin Message</label>
-                            <textarea class="form-control" name="notes" id="notes" placeholder="Type some note">{{ $order->admin_message }}</textarea>
+                        <div class="h-25 pt-4">
+                            <div class="mb-3">
+                                <label>Admin Message</label>
+                                <textarea class="form-control" name="notes" id="notes" placeholder="Type some note">{{ $order->admin_message }}</textarea>
+                            </div>
                         </div>
-                    </div>
-                </div> <!-- col// -->
-            </div>
-        </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
-</form> <!-- content-main end// -->
+                    </div> <!-- col// -->
+                </div>
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+    </form> <!-- content-main end// -->
 @endsection

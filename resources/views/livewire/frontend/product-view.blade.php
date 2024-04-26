@@ -12,7 +12,7 @@
                     <div class="product-rating" style="width:90%">
                     </div>
                 </div>
-                <span class="font-small ml-5 text-muted"> (25 reviews)</span>
+                <span class="font-small ml-5 text-muted"> ({{ count($product->comments) }}) reviews</span>
             </div>
         </div>
 

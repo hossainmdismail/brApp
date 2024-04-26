@@ -130,7 +130,9 @@ $total = 0;
             @foreach ($data->products as $key => $product)
                 <tr>
                     <td style="padding: 0px 7px; line-height: 20px;">
-                        {{ $product->product ? $product->product->name : 'Unknown' }}</td>
+                        {{ $product->product ? $product->product->product->name : 'Unknown' }} <span
+                            style="font-size: 11px;color:gray">{{ $product->product->color ? $product->product->color->name : 'Unknown' }}/{{ $product->product->size ? $product->product->size->name : 'Unknown' }}</span>
+                    </td>
                     <td style="padding: 0px 7px; line-height: 20px;">{{ $product->price }} Tk</td>
                     <td style="padding: 0px 7px; line-height: 20px;">{{ $product->qnt }}</td>
                     <td style="padding: 0px 7px; line-height: 20px;">{{ $product->price * $product->qnt }} Tk</td>

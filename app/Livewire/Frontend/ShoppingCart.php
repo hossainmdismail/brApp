@@ -18,17 +18,11 @@ class ShoppingCart extends Component
     {
         CookieSD::removeFromCookie($id);
         $this->dispatch('post-created');
-        // dd(CookieSD::getProductData());
-        //dd(CookieSD::data()['products']);
     }
 
 
     public function render()
     {
-
-        //dd(CookieSD::data()['products']);
-
-        // $total_price = count($products)
         return view('livewire..frontend.shopping-cart', [
             'products'  => CookieSD::data()['products'],
             'price'     => CookieSD::data()['price'],

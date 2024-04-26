@@ -53,10 +53,6 @@ class Product extends Model
         return $this->hasMany(Inventory::class, 'product_id');
     }
 
-    // public function stockItem()
-    // {
-    //     return $this->hasMany(ProductQuantity::class, 'product_id');
-    // }
 
     public function stock()
     {
@@ -81,5 +77,10 @@ class Product extends Model
         // Retrieve sizes based on the extracted size IDs
         return Size::whereIn('id', $sizeIds)->get();
         // return $inventories;
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class, 'product_id');
     }
 }

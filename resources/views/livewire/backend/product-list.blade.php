@@ -38,6 +38,7 @@
                             <th scope="col">Product Name</th>
                             {{-- <th scope="col">Category Name</th> --}}
                             <th scope="col">Image</th>
+                            <th scope="col">Price</th>
                             <th scope="col">Stock</th>
                             <th scope="col">Status</th>
                             <th scope="col">Market Status</th>
@@ -58,6 +59,12 @@
                                                 src="{{ asset('files/product/' . $img->image) }}" alt="">
                                         @endforeach
                                     @endif
+                                </td>
+                                <td style="font-size: 16px">
+                                    {{ number_format($request->getFinalPrice()) }}
+                                    <del style="font-size: 12px; color:brown">{{ number_format($request->price) }}</del>
+                                    <span style="font-size: 12px">( {{ $request->s_price }}
+                                        {{ $request->sp_type == 'Fixed' ? '' : '%' }} off)</span>
                                 </td>
                                 <td>
                                     <span class="badge bg-info text-dark">{{ $request->stock() }}</span>

@@ -1,4 +1,56 @@
 @extends('frontend.layouts.app')
+
+@php
+    function rating($rating)
+    {
+        if ($rating == 1) {
+            return 20;
+        } elseif ($rating == 2) {
+            return 40;
+        } elseif ($rating == 3) {
+            return 60;
+        } elseif ($rating == 4) {
+            return 80;
+        } elseif ($rating == 5) {
+            return 100;
+        } else {
+            return 0; // Handle invalid ratings
+        }
+    }
+@endphp
+
+@section('style')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            display: flex;
+            justify-content: flex-end;
+            padding: 23px 11px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            display: inline-block;
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .rating label:before {
+            content: '\2605';
+        }
+
+        .rating label:hover:before,
+        .rating input:checked~label:before {
+            color: #ffcc00;
+        }
+    </style>
+@endsection
 @section('content')
     <main class="main">
         <div class="page-header breadcrumb-wrap">
@@ -54,9 +106,13 @@
                                         <a class="nav-link active" id="Description-tab" data-bs-toggle="tab"
                                             href="#Description">Description</a>
                                     </li>
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link" id="Additional-info-tab" data-bs-toggle="tab"
                                             href="#Additional-info">Additional info</a>
+                                    </li> --}}
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews
+                                            ({{ count($product->comments) }})</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content shop_info_tab entry-main-content">
@@ -65,36 +121,49 @@
                                             {!! $product->description !!}
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="Additional-info">
-                                        ক্যাশ অন ডেলিভারি - প্রডাক্ট হাতে পেয়ে মূল্য পরিশোধ করবেন <br>
+                                    <div class="tab-pane fade" id="Reviews">
+                                        <!--Comments-->
+                                        <div class="comments-area">
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <h4 class="mb-30">Customer questions & answers</h4>
+                                                    <div class="comment-list">
+                                                        @forelse ($product->comments->take(5) as $comment)
+                                                            <div class="single-comment justify-content-between d-flex">
+                                                                <div class="user justify-content-between d-flex">
+                                                                    <div class="thumb text-center">
+                                                                        <img src="{{ asset('avatar.webp') }}"
+                                                                            alt="">
+                                                                        <h6><a href="#">{{ $comment->name }}</a></h6>
+                                                                        <p class="font-xxs">
+                                                                            {{ $product->created_at->format('M Y') }}</p>
+                                                                    </div>
+                                                                    <div class="desc">
+                                                                        <div class="product-rate d-inline-block">
+                                                                            <div class="product-rating"
+                                                                                style="width:{{ rating($comment->rating) }}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <p>{{ $comment->comment }}
+                                                                        </p>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <p class="font-xs mr-30">
+                                                                                    {{ $comment->created_at->format('F j, Y \a\t g:i a') }}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @empty
+                                                        @endforelse
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @livewire('frontend.comments', ['id' => $product->id])
 
-                                        ৭২ ঘণ্টার মধ্যে সারা বাংলাদেশে হোম ডেলিভারি<br>
-
-                                        Delivery time: 24 or 48 hours.<br>
-
-                                        ১০০ % অরিজিনাল প্রডাক্ট এবং যে কোনো সমস্যায় শতভাগ সমাধানের নিশ্চয়তা<br>
-
-                                        রিটার্ন এবং রি-ফান্ড পলিসিঃ<br>
-
-                                        আমরা Smart Bazar এর মাধ্যমে যেহেতু ঢাকা সহ সারা বাংলাদেশ এ ডেলিভারি করে থাকি, যদি
-                                        কোন প্রকার সমস্যা হয় যেমনঃ কালার বা ডিজাইনের কোন সমস্যা অথবা একটা প্রডাক্ট এর জায়গায়
-                                        অন্য একটা প্রডাক্ট চলে যাওয়া অথবা প্রডাক্টে কোন সমস্যা থাকে, আপনি ২৪ ঘন্টার মধ্যে
-                                        আমাদের সাথে যোগাযোগ করবেন এবং আপনার সমস্যাটি আমাদেরকে বললে আমাদের কাছে যদি উক্ত
-                                        প্রডাক্টটি stock এ থাকে তখন আমরা আপনাদের হাতে উক্ত প্রডাক্ট টি পৌঁছে যাবে ৫
-                                        কর্মদিবসের মধ্যে এবং উক্ত প্রডাক্ট টি যদি available না থাকে সে ক্ষেত্রে আমরা ৫
-                                        কর্মদিবসের মধ্যে বিকাশ বা ব্যাংকের মাধ্যমে আপনার টাকা আপনার কাছে পৌছে দিব।
-                                        <br>
-
-
-                                        বিশেষ দ্রষ্টব্যঃ<br>
-
-
-
-                                        ২৪ ঘন্টার মধ্যে যোগাযোগ না করা হলে, সেক্ষেত্রে আপনার কোন অভিযোগ ই গ্রহনযোগ্য হবে না।
-
-
-
-                                        প্রডাক্ট এর কোন সমস্যা ব্যাতিতো আমরা কখনই প্রডাক্ট রিটার্ন বা এক্সচেঞ্জ করে থাকিনা।
                                     </div>
                                 </div>
                             </div>
@@ -170,4 +239,30 @@
             });
         </script>
     @endif
+    <script>
+        const stars = document.querySelectorAll('.rating input');
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const rating = this.value;
+                highlightStars(rating);
+            });
+
+            star.addEventListener('mouseleave', function() {
+                const currentRating = document.querySelector('.rating input:checked').value;
+                highlightStars(currentRating);
+            });
+        });
+
+        function highlightStars(rating) {
+            const starLabels = document.querySelectorAll('.rating label');
+            starLabels.forEach(label => {
+                if (label.htmlFor <= rating) {
+                    label.style.color = '#ffcc00';
+                } else {
+                    label.style.color = '#ccc';
+                }
+            });
+        }
+    </script>
 @endsection
