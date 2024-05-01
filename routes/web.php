@@ -60,7 +60,7 @@ Route::get('/unsubscribe/{user}', function (Request $request) {
     // ...
 })->name('unsubscribe');
 
-Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
+Route::middleware(['admin'])->prefix('ek_admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('/country', CountryController::class);
     Route::get('/create/admin', [AdminController::class, 'create_admin'])->name('create.admin');
@@ -95,8 +95,8 @@ Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
 
 
 
-Route::get('/sd_admin/register', [AdminController::class, 'admin_register'])->name('admin.register');
-Route::post('/sd_admin/store', [AdminController::class, 'admin_store'])->name('admin.store');
-Route::get('/sd_admin/login', [AdminController::class, 'admin_login'])->name('admin.login');
-Route::POST('/sd_admin/logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
-Route::post('/sd_admin/adminlogin', [AdminController::class, 'adminlogin'])->name('adminlogin');
+Route::get('/ek_admin/register', [AdminController::class, 'admin_register'])->name('admin.register');
+Route::post('/ek_admin/store', [AdminController::class, 'admin_store'])->name('admin.store');
+Route::get('/ek_admin/login', [AdminController::class, 'admin_login'])->name('admin.login');
+Route::POST('/ek_admin/logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
+Route::post('/ek_admin/adminlogin', [AdminController::class, 'adminlogin'])->name('adminlogin');

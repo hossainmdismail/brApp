@@ -39,9 +39,9 @@
                     <h5 class="widget-title wow fadeIn animated">Payment</h5>
                     <div class="row">
                         <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
-                            {{-- <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p> --}}
+                            <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
                             <img class="wow fadeIn animated" src="{{ asset('frontend') }}/imgs/theme/payment-method.png"
-                                alt="">
+                                style="width: 194px">
                         </div>
                     </div>
                 </div>

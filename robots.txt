@@ -3,4 +3,4 @@ Disallow: /sd_admin/
 Disallow: /admin/
 Disallow: /login
 
-Sitemap: https://smartbazar-bd.com/sitemap.xml
+Sitemap: https://poddoja.com/sitemap.xml
