@@ -1,9 +1,9 @@
 <section class="product-tabs section-padding wow fadeIn animated">
-    {{-- Hot deal --}}
+    {{-- Feature --}}
     <div class="container">
         <div class="tab-header">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <h3>Hot Deal</h3>
+                <h3>Feature</h3>
             </ul>
             <a href="{{ route('features') }}" class="view-more d-none d-md-flex">View More<i
                     class="fi-rs-angle-double-small-right"></i></a>
@@ -13,7 +13,7 @@
                 <div class="row product-grid-4">
                     @foreach ($featureds as $featured)
                         <div class="col-lg-3 col-md-4 col-6 col-sm-6">
-                            <x-product :product="$featured"/>
+                            <x-product :product="$featured" />
                         </div>
                     @endforeach
                 </div>
@@ -32,9 +32,13 @@
                     @forelse ($categories as $key => $category)
                         <div class="card-1">
                             <figure class=" img-hover-scale overflow-hidden">
-                                <a href="{{ route('front.category',$category->slugs) }}" style="width: 100%;"><img src="{{ asset('files/category/'.$category->category_image) }}" style="width: 100%" alt="{{ $category->category_name }}"></a>
+                                <a href="{{ route('front.category', $category->slugs) }}" style="width: 100%;"><img
+                                        src="{{ asset('files/category/' . $category->category_image) }}"
+                                        style="width: 100%" alt="{{ $category->category_name }}"></a>
                             </figure>
-                            <h5><a href="{{ route('front.category',$category->slugs) }}">{{ $category->category_name }}</a></h5>
+                            <h5><a
+                                    href="{{ route('front.category', $category->slugs) }}">{{ $category->category_name }}</a>
+                            </h5>
                         </div>
                     @empty
                     @endforelse
@@ -43,11 +47,11 @@
         </div>
     </section>
 
-    {{-- Best sale --}}
+    {{-- Popular --}}
     <div class="container">
         <div class="tab-header">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <h3>Best Sale!</h3>
+                <h3>Popular</h3>
             </ul>
             {{-- Need link category base url --}}
             <a href="{{ route('hot') }}" class="view-more d-none d-md-flex">View More<i
@@ -57,7 +61,7 @@
             <div class="row product-grid-4">
                 @foreach ($populars as $pupolar)
                     <div class="col-lg-3 col-md-4 col-6 col-sm-6">
-                        <x-product :product="$pupolar"/>
+                        <x-product :product="$pupolar" />
                     </div>
                 @endforeach
             </div>
@@ -78,7 +82,7 @@
             <div class="row product-grid-4">
                 @foreach ($latests as $latest)
                     <div class="col-lg-3 col-md-4 col-6 col-sm-6">
-                        <x-product :product="$latest"/>
+                        <x-product :product="$latest" />
                     </div>
                 @endforeach
 
@@ -100,17 +104,20 @@
                 @if ($ads)
                     <div class="col-lg-3">
                         <div class="banner-img style-2 wow fadeIn animated">
-                            <img src="{{ asset('files/campaign/'.$ads->campaign_image) }}" alt="{{ $ads->campaign_name }}">
+                            <img src="{{ asset('files/campaign/' . $ads->campaign_image) }}"
+                                alt="{{ $ads->campaign_name }}">
                             <div class="banner-text">
                                 <span>{{ $ads->campaign_for }}</span>
                                 <h4 class="mt-5">{{ $ads->campaign_name }}</h4>
-                                <a href="{{ route('campaign.product.list',$ads->id) }}" class="text-white">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                                <a href="{{ route('campaign.product.list', $ads->id) }}" class="text-white">Shop Now <i
+                                        class="fi-rs-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-12">
                         <div class="carausel-4-columns-cover arrow-center position-relative">
-                            <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow" id="carausel-4-columns-arrows"></div>
+                            <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow"
+                                id="carausel-4-columns-arrows"></div>
                             <div class="carausel-4-columns carausel-arrow-center" id="carausel-4-columns">
                                 @forelse ($ads->products as $product)
                                     <div class="product-cart-wrap mb-30">
@@ -127,7 +134,9 @@
                                                 </a>
                                             </div>
                                             <div class="product-action-1">
-                                                <a href="{{ route('product.view', $product->slugs) }}" aria-label="Quick view" class="action-btn hover-up" ><i class="fi-rs-eye"></i></a>
+                                                <a href="{{ route('product.view', $product->slugs) }}"
+                                                    aria-label="Quick view" class="action-btn hover-up"><i
+                                                        class="fi-rs-eye"></i></a>
 
                                             </div>
 
@@ -150,12 +159,14 @@
                                                 @endif
                                             </div>
                                             <div class="product-action-1 show">
-                                                <a href="{{ route('product.view', $product->slugs) }}" aria-label="Order now" class="action-btn hover-up" href="shop-cart.html"><i class="fi fi-rr-shopping-cart"></i></a>
+                                                <a href="{{ route('product.view', $product->slugs) }}"
+                                                    aria-label="Order now" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi fi-rr-shopping-cart"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 @empty
-                                Pending...
+                                    Pending...
                                 @endforelse
                             </div>
                         </div>
@@ -169,4 +180,3 @@
         </div>
     </section>
 </section>
-
