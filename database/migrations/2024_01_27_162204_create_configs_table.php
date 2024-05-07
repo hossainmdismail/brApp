@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('url');
             $table->string('logo');
+            $table->string('fav');
             $table->timestamps();
         });
     }

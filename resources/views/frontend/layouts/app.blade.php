@@ -17,7 +17,7 @@ $link = CustomLink::first();
     <meta name="author" content="Familly Bazar">
     {!! SEO::generate() !!}
     @if ($config)
-        <link rel="shortcut icon" href="{{ asset('files/config/' . $config->logo) }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('files/config/' . $config->fav) }}" type="image/x-icon">
     @endif
     <link rel='stylesheet' href='{{ asset('frontend/css/icon.css') }}'>
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/maind134.css?v=3.4">

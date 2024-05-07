@@ -108,10 +108,10 @@ class AttributeController extends Controller
             // 'sku'           => 'required',
             'color_id'      => 'required|integer',
             'size_id'       => 'required|integer',
-            'price'         => 'required|integer',
-            'stock_price'   => 'required|integer',
-            's_price'       => 'required|integer',
-            'sp_type'       => 'required',
+            //'price'         => 'required|integer',
+            //'stock_price'   => 'required|integer',
+            //'s_price'       => 'required|integer',
+            //'sp_type'       => 'required',
             // 'qnt'           => 'required|integer',
             // 'image'         => 'required'
         ]);
@@ -120,10 +120,10 @@ class AttributeController extends Controller
         if ($attributes) {
             $attributes->color_id = $request->color_id;
             $attributes->size_id = $request->size_id;
-            $attributes->price = $request->price;
-            $attributes->stock_price = $request->stock_price;
-            $attributes->s_price = $request->s_price;
-            $attributes->sp_type = $request->sp_type;
+            //$attributes->price = $request->price;
+            //$attributes->stock_price = $request->stock_price;
+            //$attributes->s_price = $request->s_price;
+            //$attributes->sp_type = $request->sp_type;
             if ($request->qnt) {
                 $attributes->qnt = $attributes->qnt + $request->qnt;
             }

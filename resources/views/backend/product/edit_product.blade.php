@@ -151,7 +151,7 @@
                                 </select>
                             </div>
                             <hr>
-                            <div class="mb-4 col-md-6">
+                            {{-- <div class="mb-4 col-md-6">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="text" placeholder="Entire Name"
                                     class="form-control @error('price') is-invalid @enderror" name="price">
@@ -178,7 +178,7 @@
                                     <option value="Percent" @if (old('sp_type') == 'Percent') selected @endif>Percentage
                                     </option>
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="mb-4 col-md-6">
                                 <label for="avlqnt" class="form-label">Available</label>
                                 <input type="number" placeholder="0"
@@ -394,10 +394,10 @@
                                                 {{-- <th scope="col">Category Name</th> --}}
                                                 <th scope="col">Image</th>
                                                 <th scope="col">SKU</th>
-                                                <th scope="col">Price</th>
+                                                {{-- <th scope="col">Price</th> --}}
                                                 <th scope="col">Stock</th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Discount</th>
+                                                {{-- <th scope="col">Discount</th> --}}
                                                 <th scope="col"> Action </th>
                                             </tr>
                                         </thead>
@@ -411,7 +411,7 @@
                                                     </td>
                                                     <td>{{ $attr->color ? $attr->color->name : 'NULL' }} /
                                                         {{ $attr->size ? $attr->size->name : 'NULL' }}</td>
-                                                    <td><b> <span>৳</span> {{ $attr->price }} </b></td>
+                                                    {{-- <td><b> <span>৳</span> {{ $attr->price }} </b></td> --}}
                                                     <td>
                                                         <span class="badge bg-info text-dark">{{ $attr->qnt }}</span>
                                                     </td>
@@ -420,10 +420,10 @@
                                                             class="badge bg-{{ $request->status == 'active' ? 'success' : 'warning' }}">{{ $request->status }}</span>
                                                     </td>
 
-                                                    <td>
+                                                    {{-- <td>
                                                         {{ $attr->s_price }}
                                                         {{ $attr->sp_type == 'Fixed' ? '৳' : '%' }}
-                                                    </td>
+                                                    </td> --}}
                                                     <td>
                                                         <a data-bs-val="{{ route('attributes.edit', $attr->id) }}"
                                                             data-bs-peram="{{ $attr->id }}"
@@ -499,12 +499,12 @@
                 success: function(response) {
                     // Example: Assigning values to form inputs by name
                     form.find('input[name="sku"]').val(response.sku);
-                    form.find('input[name="price"]').val(typeof response.price === 'string' ? response
-                        .price.replace(/\.00$/, '') : response.price);
-                    form.find('input[name="stock_price"]').val(typeof response.stock_price ===
-                        'string' ? response.stock_price.replace(/\.00$/, '') : response.stock_price);
-                    form.find('input[name="s_price"]').val(typeof response.s_price === 'string' ?
-                        response.s_price.replace(/\.00$/, '') : response.s_price);
+                    //form.find('input[name="price"]').val(typeof response.price === 'string' ? response
+                    //    .price.replace(/\.00$/, '') : response.price);
+                    //form.find('input[name="stock_price"]').val(typeof response.stock_price ===
+                    //    'string' ? response.stock_price.replace(/\.00$/, '') : response.stock_price);
+                    //form.find('input[name="s_price"]').val(typeof response.s_price === 'string' ?
+                    //    response.s_price.replace(/\.00$/, '') : response.s_price);
                     form.find('input[name="avlqnt"]').val(response.qnt);
 
                     form.find('select[name="color_id"]').val(response.color_id);

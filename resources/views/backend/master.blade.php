@@ -5,6 +5,7 @@ $config = Config::first();
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
@@ -20,7 +21,7 @@ $config = Config::first();
     <!-- Template CSS -->
     <link href="{{ asset('backend') }}/assets/css/main.css" rel="stylesheet" type="text/css" />
     @if ($config)
-        <link rel="shortcut icon" href="{{ asset('files/config/'.$config->logo) }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('files/config/' . $config->fav) }}" type="image/x-icon">
     @endif
 
     <script src="{{ asset('backend') }}/assets/js/vendors/jquery-3.6.0.min.js"></script>

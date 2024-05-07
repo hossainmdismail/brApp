@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Config;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManagerStatic as Image;
 use Photo;
 
 class ConfigController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Return Value
+    public static $name;
     public function index()
     {
         $request = Config::first();
@@ -33,13 +33,13 @@ class ConfigController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'name'      => 'required',
             'email'     => 'required',
             'number'    => 'required',
             'address'   => 'required',
             'logo'      => 'required',
+            'fav'       => 'required',
             'url'       => 'required',
         ]);
 
@@ -51,13 +51,18 @@ class ConfigController extends Controller
             Photo::upload($request->logo, 'files/config', 'CONFIG');
         }
 
+        if ($request->fav) {
+            $this->upload($request->fav, 'files/config', 'CONFAV');
+        }
+
         $config = new Config();
         $config->name       = $request->name;
         $config->email      = $request->email;
         $config->number     = $request->number;
-        $config->url       = $request->url;
+        $config->url        = $request->url;
         $config->address    = $request->address;
         $config->logo       = $request->logo ? Photo::$name : 'null';
+        $config->fav        = $request->fav ? self::$name : 'null';
         $config->save();
         return back()->with('succ', 'Successfully configure');
     }
@@ -92,5 +97,28 @@ class ConfigController extends Controller
     public function destroy(Config $config)
     {
         //
+    }
+
+    //Image Upload Methods
+    //Pure File //Path Name // Prefix for name // size alternative
+    public static function upload($file, $path, $prefix, $size = [])
+    {
+        if (file_exists(public_path($path))) {
+            try {
+                $extention = $file->getClientOriginalExtension();
+                $name = $prefix . rand(1, 2000) . rand(1, 500) . '-' . date('dmy') . '.' . $extention;
+                if (count($size) != 2) {
+                    Image::make($file)->save(public_path($path . '/' . $name));
+                } else {
+                    Image::make($file)->resize($size[0], $size[1])->save(public_path($path . '/' . $name));
+                }
+                self::$name = $name;
+                return true;
+            } catch (\Throwable $th) {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
