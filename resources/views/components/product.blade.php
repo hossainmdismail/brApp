@@ -31,11 +31,21 @@
         </div>
         <h2><a href="{{ route('product.view', $product->slugs) }}">{{ $product->name }}</a>
         </h2>
-        <div class="rating-result" title="50%">
+
+
+        <div class="d-flex gap-2">
+            <div class="product-rate d-inline-block">
+                <div class="product-rating" style="width:{{ $product->getRating() }}%">
+                </div>
+            </div>
+            <span>({{ count($product->comments) }})</span>
+        </div>
+        {{--
+        <div class="rating-result" title="100%">
             <span>
                 <span>({{ count($product->comments) }})</span>
             </span>
-        </div>
+        </div> --}}
         <div class="product-price">
             <span>৳ {{ number_format($product->getFinalPrice()) }}</span>
         </div>

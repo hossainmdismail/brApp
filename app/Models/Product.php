@@ -53,6 +53,20 @@ class Product extends Model
         return $this->hasMany(Inventory::class, 'product_id');
     }
 
+    public function uniqueAttributes()
+    {
+        // Subquery to get distinct color_ids with corresponding minimum IDs
+        $distinctColorIds = $this->attributes()
+            ->selectRaw('MIN(id) as id')
+            ->groupBy('color_id')
+            ->pluck('id');
+
+        // Main query to get all attribute details for the distinct IDs
+        return $this->attributes()
+            ->whereIn('id', $distinctColorIds)
+            ->get();
+    }
+
 
     public function stock()
     {
@@ -82,5 +96,18 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comments::class, 'product_id');
+    }
+
+    public function getRating()
+    {
+        $ratingSum = $this->comments()->sum('rating');
+        $ratingCount = $this->comments()->count();
+
+        // Prevent division by zero
+        if ($ratingCount === 0) {
+            return 0;
+        }
+
+        return ($ratingSum / ($ratingCount * 5)) * 100;
     }
 }

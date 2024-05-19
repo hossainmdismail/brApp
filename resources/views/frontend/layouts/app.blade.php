@@ -14,7 +14,7 @@ $link = CustomLink::first();
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="Familly Bazar">
+    <meta name="author" content="{{ $config ? $config->name : '' }}">
     {!! SEO::generate() !!}
     @if ($config)
         <link rel="shortcut icon" href="{{ asset('files/config/' . $config->fav) }}" type="image/x-icon">

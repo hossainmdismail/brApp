@@ -1,24 +1,4 @@
 @extends('frontend.layouts.app')
-
-@php
-    function rating($rating)
-    {
-        if ($rating == 1) {
-            return 20;
-        } elseif ($rating == 2) {
-            return 40;
-        } elseif ($rating == 3) {
-            return 60;
-        } elseif ($rating == 4) {
-            return 80;
-        } elseif ($rating == 5) {
-            return 100;
-        } else {
-            return 0; // Handle invalid ratings
-        }
-    }
-@endphp
-
 @section('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -81,7 +61,7 @@
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
                                             {{-- {{ $product->attributes }} --}}
-                                            @foreach ($product->attributes as $key => $image)
+                                            @foreach ($product->uniqueAttributes() as $key => $image)
                                                 <figure class="border-radius-10">
                                                     <img src="{{ asset('files/product/' . $image->image) }}"
                                                         alt="product image" width="100%">
@@ -90,7 +70,7 @@
                                         </div>
                                         <!-- THUMBNAILS -->
                                         <div class="slider-nav-thumbnails pl-15 pr-15">
-                                            @foreach ($product->attributes as $key => $image)
+                                            @foreach ($product->uniqueAttributes() as $key => $image)
                                                 <div><img src="{{ asset('files/product/' . $image->image) }}"
                                                         alt="product image"></div>
                                             @endforeach
@@ -121,8 +101,8 @@
                                             {!! $product->description !!}
                                         </div>
                                     </div>
+                                    {{-- Comment --}}
                                     <div class="tab-pane fade" id="Reviews">
-                                        <!--Comments-->
                                         <div class="comments-area">
                                             <div class="row">
                                                 <div class="col-lg-8">
@@ -141,7 +121,7 @@
                                                                     <div class="desc">
                                                                         <div class="product-rate d-inline-block">
                                                                             <div class="product-rating"
-                                                                                style="width:{{ rating($comment->rating) }}">
+                                                                                style="width:{{ $comment->getRating() }}%">
                                                                             </div>
                                                                         </div>
                                                                         <p>{{ $comment->comment }}
@@ -165,6 +145,7 @@
                                         @livewire('frontend.comments', ['id' => $product->id])
 
                                     </div>
+                                    {{-- privacy --}}
                                     <div class="tab-pane fade" id="policy">
                                         <!--Comments-->
                                         Cancellation, Return & Refund Policy <br>

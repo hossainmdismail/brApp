@@ -9,7 +9,7 @@
             </div>
             <div class="product-rate-cover text-end">
                 <div class="product-rate d-inline-block">
-                    <div class="product-rating" style="width:90%">
+                    <div class="product-rating" style="width:{{ $product->getRating() }}%">
                     </div>
                 </div>
                 <span class="font-small ml-5 text-muted"> ({{ count($product->comments) }}) reviews</span>
@@ -35,7 +35,7 @@
             <ul>
                 @if ($product->services)
                     @foreach ($product->services as $service)
-                        <li class="mb-10"><i class="fi-rs-crown mr-5"></i>
+                        <li class="mb-10"><i class="fa fa-bullseye mr-5"></i>
                             {{ $service->service ? $service->service->message : null }}</li>
                     @endforeach
                 @endif
@@ -56,13 +56,21 @@
             <div class="attr-detail attr-color mb-15">
                 <strong class="mr-10">Color</strong>
                 <ul class="list-filter color-filter">
-                    @foreach ($product->getUniqueColors() as $color)
-                        {{-- @if ($color->color) --}}
+                    {{-- @foreach ($product->getUniqueColors() as $color)
                         <li class="{{ $color_id == $color->id ? 'active' : '' }}"><a
                                 wire:click="sizeByColor({{ $color->id }})" data-color="black"><span
                                     class="product-color-red active" style="background: {{ $color->code }}">
                                 </span></a></li>
-                        {{-- @endif --}}
+                    @endforeach --}}
+
+
+                    @foreach ($product->uniqueAttributes() as $color)
+                        <li class="{{ $color_id == $color->color_id ? 'active' : '' }}"><a
+                                wire:click="sizeByColor({{ $color->color_id }})" data-color="black"><span
+                                    class="product-color-red active" style="background: {{ $color->color->code }}">
+                                    <img src="{{ asset('files/product/' . $color->image) }}"
+                                        alt="{{ $color->image }}">
+                                </span></a></li>
                     @endforeach
                 </ul>
             </div>
