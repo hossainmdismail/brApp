@@ -25,7 +25,7 @@
     {{-- popular category --}}
     <section class="popular-categories section-padding mt-15">
         <div class="container wow fadeIn animated">
-            <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
+            <h3 class="section-title mb-20"><span>Categories</span></h3>
             <div class="carausel-6-columns-cover position-relative">
                 <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
                 <div class="carausel-6-columns" id="carausel-6-columns">
@@ -91,17 +91,18 @@
     </div>
 
     {{-- ads --}}
-    <section class="bg-grey-9 section-padding">
-        <div class="container pt-15 pb-25">
-            <div class="heading-tab d-flex">
-                <div class="heading-tab-left wow fadeIn animated">
-                    <h3 class="section-title mb-20"><span>Campaign</span> Best Sell</h3>
+    @if ($ads)
+        <section class="bg-grey-9 section-padding">
+            <div class="container pt-15 pb-25">
+                <div class="heading-tab d-flex">
+                    <div class="heading-tab-left wow fadeIn animated">
+                        <h3 class="section-title mb-20"><span>Campaign</span></h3>
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="row">
 
-            <div class="row">
-                @if ($ads)
                     <div class="col-lg-3">
                         <div class="banner-img style-2 wow fadeIn animated">
                             <img src="{{ asset('files/campaign/' . $ads->campaign_image) }}"
@@ -172,11 +173,12 @@
                         </div>
                         <!--End tab-content-->
                     </div>
-                @else
-                @endif
 
-                <!--End Col-lg-9-->
+
+                    <!--End Col-lg-9-->
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @else
+    @endif
 </section>

@@ -17,9 +17,9 @@ class CategoryController extends Controller
         $config = Config::first();
         if ($category) {
             SEOMeta::setTitle('Category');
-            SEOMeta::addMeta('title', $category->seo_title);
-            SEOTools::setDescription($category->seo_description);
-            SEOMeta::addKeyword($category->seo_tags);
+            SEOMeta::addMeta('title', $category->seo_title ?? 'category');
+            SEOTools::setDescription($category->seo_description ?? 'category');
+            SEOMeta::addKeyword($category->seo_tags ?? 'category');
         }
 
         if ($config) {

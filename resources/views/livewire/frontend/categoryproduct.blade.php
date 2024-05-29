@@ -40,31 +40,12 @@
                                     </ul>
                                 </div>
                             </div>
-                            {{-- <div class="sort-by-cover">
-                                <div class="sort-by-product-wrap">
-                                    <div class="sort-by">
-                                        <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
-                                    </div>
-                                    <div class="sort-by-dropdown-wrap">
-                                        <span> Featured <i class="fi-rs-angle-small-down"></i></span>
-                                    </div>
-                                </div>
-                                <div class="sort-by-dropdown">
-                                    <ul>
-                                        <li><a class="active" href="#">Featured</a></li>
-                                        <li><a href="#">Price: Low to High</a></li>
-                                        <li><a href="#">Price: High to Low</a></li>
-                                        <li><a href="#">Release Date</a></li>
-                                        <li><a href="#">Avg. Rating</a></li>
-                                    </ul>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
 
                     <div class="row product-grid-3">
                         @foreach ($products as $product)
-                            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                            <div class="col-lg-4 col-md-4 col-6 col-sm-6">
                                 <x-product :product="$product" />
                             </div>
                         @endforeach

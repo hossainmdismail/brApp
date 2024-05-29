@@ -3,7 +3,6 @@
 namespace App\Livewire\Frontend;
 
 use App\Models\Order;
-use App\Models\Product;
 use Livewire\Component;
 use App\Models\Shipping;
 use App\Helpers\CookieSD;
@@ -13,7 +12,6 @@ use Livewire\Attributes\On;
 use App\Models\OrderProduct;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
 
 
@@ -31,7 +29,7 @@ class Checkout extends Component
     #[Validate('required|string|min:11|max:11')]
     public $number = '';
 
-    #[Validate('required|email')]
+    // #[Validate('required|email')]
     public $email = '';
 
     #[Validate('required')]
@@ -122,6 +120,7 @@ class Checkout extends Component
             $this->dispatch('post-created');
 
             DB::commit();
+            Cookie::queue(Cookie::make('order', true, 60));
 
             $ids = [];
             foreach ($cookieData['products'] as $value) {

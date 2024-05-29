@@ -44,7 +44,7 @@ class Comments extends Component
 
             Session::flash('succ', 'Thank you for your rating');
 
-            Cookie::queue(Cookie::make('comment_submitted', true, 1));
+            Cookie::queue(Cookie::make('comment_submitted', true, 10));
         }
     }
 
@@ -56,6 +56,11 @@ class Comments extends Component
 
     public function render()
     {
-        return view('livewire.frontend.comments');
+
+        $orderReview = Cookie::has('order');
+
+        return view('livewire.frontend.comments', [
+            'order'   => $orderReview
+        ]);
     }
 }

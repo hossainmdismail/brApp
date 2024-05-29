@@ -1,23 +1,6 @@
 <section class="home-slider position-relative pt-25 pb-20">
     <div class="container">
         <div class="row">
-            {{-- <div class="col-lg-3 d-none gap-2 d-sm-block">
-                <div class="categori-dropdown-wrap ">
-                    <ul>
-                        <div class="main-categori-wrap d-none d-lg-block">
-                            <a class="categori-button-active open" href="#">
-                                <span class="fi-rs-apps"></span> Browse Categories
-                            </a>
-                        </div>
-                        @foreach ($categories as $category)
-                            <li class="has-children">
-                                <a href="{{ route('front.category',$category->slugs) }}"><img width="30" style="margin-right: 6px; border-radius: 6px;" src="{{ asset('files/category/'.$category->category_image) }}" alt="">{{ $category->category_name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <div class="more_categories">Show more...</div>
-                </div>
-            </div> --}}
             <div class="col-lg-9">
                 <div class="position-relative">
                     <div class="hero-slider-1 style-3 dot-style-1 dot-style-1-position-1">

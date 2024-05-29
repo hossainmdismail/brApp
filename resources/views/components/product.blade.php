@@ -33,7 +33,7 @@
         </h2>
 
 
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 align-items-center">
             <div class="product-rate d-inline-block">
                 <div class="product-rating" style="width:{{ $product->getRating() }}%">
                 </div>

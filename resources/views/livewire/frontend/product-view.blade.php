@@ -56,14 +56,6 @@
             <div class="attr-detail attr-color mb-15">
                 <strong class="mr-10">Color</strong>
                 <ul class="list-filter color-filter">
-                    {{-- @foreach ($product->getUniqueColors() as $color)
-                        <li class="{{ $color_id == $color->id ? 'active' : '' }}"><a
-                                wire:click="sizeByColor({{ $color->id }})" data-color="black"><span
-                                    class="product-color-red active" style="background: {{ $color->code }}">
-                                </span></a></li>
-                    @endforeach --}}
-
-
                     @foreach ($product->uniqueAttributes() as $color)
                         <li class="{{ $color_id == $color->color_id ? 'active' : '' }}"><a
                                 wire:click="sizeByColor({{ $color->color_id }})" data-color="black"><span
