@@ -51,14 +51,14 @@
                         <img class="btn-shadow-brand hover-up border-radius-10 bg-brand-muted wow fadeIn animated"
                             src="assets/imgs/page/company-1.jpg" alt="">
                         <h4 class="mt-30 mb-15 wow fadeIn animated">New Market</h4>
-                        <p class="text-grey-3 wow fadeIn animated"> House# 44/1, Shop# 10, 11 (3rd Floor), New
+                        <p class="text-grey-3 wow fadeIn animated"> New
                             Market City Complex, New Market, Dhaka- 1205, Bangladesh.</p>
                     </div>
                     <div class="col-md-4 text-center mb-md-0 mb-4">
                         <img class="btn-shadow-brand hover-up border-radius-10 bg-brand-muted wow fadeIn animated"
                             src="assets/imgs/page/company-2.jpg" alt="">
                         <h4 class="mt-30 mb-15 wow fadeIn animated">New Market</h4>
-                        <p class="text-grey-3 wow fadeIn animated"> House# 44/1, Shop# 10, 11 (3rd Floor), New
+                        <p class="text-grey-3 wow fadeIn animated"> New
                             Market City Complex, New Market, Dhaka- 1205, Bangladesh.</p>
                     </div>
                 </div>
