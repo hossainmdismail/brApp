@@ -51,14 +51,14 @@ Route::get('/campaign/{id}', [HomeController::class, 'campaign'])->name('campaig
 Route::get('/privacy-policy', [HomeController::class, 'privacy'])->name('privacy');
 Route::get('/sitemap', [SEOController::class, 'sitemap'])->name('sitemap');
 
-Route::get('/unsubscribe/{user}', function (Request $request) {
-    if (!$request->hasValidSignature()) {
-        abort(401);
-    }
+// Route::get('/unsubscribe/{user}', function (Request $request) {
+//     if (!$request->hasValidSignature()) {
+//         abort(401);
+//     }
 
-    dd('Valied');
-    // ...
-})->name('unsubscribe');
+//     dd('Valied');
+//     // ...
+// })->name('unsubscribe');
 
 Route::middleware(['admin'])->prefix('ek_admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -95,8 +95,10 @@ Route::middleware(['admin'])->prefix('ek_admin')->group(function () {
 
 
 
-Route::get('/ek_admin/register', [AdminController::class, 'admin_register'])->name('admin.register');
-Route::post('/ek_admin/store', [AdminController::class, 'admin_store'])->name('admin.store');
-Route::get('/ek_admin/login', [AdminController::class, 'admin_login'])->name('admin.login');
-Route::POST('/ek_admin/logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
-Route::post('/ek_admin/adminlogin', [AdminController::class, 'adminlogin'])->name('adminlogin');
+Route::prefix('backdrop')->group(function () {
+    Route::get('/register', [AdminController::class, 'admin_register'])->name('admin.register');
+    Route::post('/store', [AdminController::class, 'admin_store'])->name('admin.store');
+    Route::get('/login', [AdminController::class, 'admin_login'])->name('admin.login');
+    Route::POST('/logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
+    Route::post('/adminlogin', [AdminController::class, 'adminlogin'])->name('adminlogin');
+});

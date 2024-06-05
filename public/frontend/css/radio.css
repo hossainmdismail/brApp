@@ -1,3 +1,45 @@
+
+  .span_loader {
+    --uib-size: 15px;
+    --uib-color: #F359A9;
+    --uib-speed: 1.75s;
+    position: relative;
+    height: var(--uib-size);
+    width: var(--uib-size);
+  }
+
+  .span_loader::before,
+  .span_loader::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: var(--uib-color);
+    animation: pulse var(--uib-speed) ease-in-out infinite;
+    transform: scale(0);
+    transition: background-color 0.3s ease;
+  }
+
+  .span_loader::after {
+    animation-delay: calc(var(--uib-speed) / -2);
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1);
+      opacity: 0.25;
+    }
+  }
+
+
 .frb-group {
 	margin: 15px 0;
 }
@@ -6,110 +48,87 @@
 	margin-top: 15px;
 }
 
-.frb input[type="radio"]:empty,
-.frb input[type="checkbox"]:empty {
+.frb input[type="radio"]:empty {
 	display: none;
 }
 
-.frb input[type="radio"] ~ label:before,
-.frb input[type="checkbox"] ~ label:before {
-	font-family: FontAwesome;
-	content: '\f096';
-	position: absolute;
-	top: 50%;
-	margin-top: -11px;
-	left: 15px;
-	font-size: 22px;
-}
-
-.frb input[type="radio"]:checked ~ label:before,
-.frb input[type="checkbox"]:checked ~ label:before {
-	content: '\f046';
-}
-
-.frb input[type="radio"] ~ label,
-.frb input[type="checkbox"] ~ label {
+.frb input[type="radio"] ~ label {
 	position: relative;
 	cursor: pointer;
 	width: 100%;
-	border: 1px solid #ccc;
 	border-radius: 5px;
-	background-color: #f2f2f2;
+	background-color: #ffffff;
+	padding: 10px 10px 10px 50px; /* Adjusted padding to make room for the custom circle */
+}
+
+.frb input[type="radio"] ~ label:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	transform: translateY(-50%);
+	width: 22px;
+	height: 22px;
+	border: 2px solid #ccc;
+	border-radius: 50%;
+	background-color: #ffffff;
+	transition: background-color 0.3s, border-color 0.3s;
+}
+
+.frb input[type="radio"]:checked ~ label:before {
+	background-color: #f359a9; /* Default filled color when selected */
+	border-color: #f359a9; /* Match border color with filled color */
 }
 
 .frb input[type="radio"] ~ label:focus,
-.frb input[type="radio"] ~ label:hover,
-.frb input[type="checkbox"] ~ label:focus,
-.frb input[type="checkbox"] ~ label:hover {
+.frb input[type="radio"] ~ label:hover {
 	box-shadow: 0px 0px 3px #333;
 }
 
-.frb input[type="radio"]:checked ~ label,
-.frb input[type="checkbox"]:checked ~ label {
-	color: #fafafa;
-}
-
-.frb input[type="radio"]:checked ~ label,
-.frb input[type="checkbox"]:checked ~ label {
+.frb input[type="radio"]:checked ~ label {
+	color: #333; /* Text color when selected */
 	background-color: #ffffff;
 }
 
-.frb.frb-default input[type="radio"]:checked ~ label,
-.frb.frb-default input[type="checkbox"]:checked ~ label {
-	color: #333;
-}
-
-.frb.frb-primary input[type="radio"]:checked ~ label,
-.frb.frb-primary input[type="checkbox"]:checked ~ label {
-	background-color: #39B4AC;
-}
-
-.frb.frb-success input[type="radio"]:checked ~ label,
-.frb.frb-success input[type="checkbox"]:checked ~ label {
-	background-color: #5cb85c;
-}
-
-.frb.frb-info input[type="radio"]:checked ~ label,
-.frb.frb-info input[type="checkbox"]:checked ~ label {
-	background-color: #5bc0de;
-}
-
-.frb.frb-warning input[type="radio"]:checked ~ label,
-.frb.frb-warning input[type="checkbox"]:checked ~ label {
-	background-color: #f0ad4e;
-}
-
-.frb.frb-danger input[type="radio"]:checked ~ label,
-.frb.frb-danger input[type="checkbox"]:checked ~ label {
-	background-color: #d9534f;
-}
-
-.frb input[type="radio"]:empty ~ label span,
-.frb input[type="checkbox"]:empty ~ label span {
+.frb input[type="radio"]:empty ~ label span {
 	display: inline-block;
 }
 
-.frb input[type="radio"]:empty ~ label span.frb-title,
-.frb input[type="checkbox"]:empty ~ label span.frb-title {
+.frb input[type="radio"]:empty ~ label span.frb-title {
 	font-size: 16px;
 	font-weight: 700;
-	margin: 5px 5px 5px 50px;
+	margin: 5px;
 }
 
-.frb input[type="radio"]:empty ~ label span.frb-description,
-.frb input[type="checkbox"]:empty ~ label span.frb-description {
+.frb input[type="radio"]:empty ~ label span.frb-description {
 	font-weight: normal;
 	font-style: italic;
 	color: #999;
-	margin: 5px 5px 5px 50px;
+	margin: 5px;
 }
 
-.frb input[type="radio"]:empty:checked ~ label span.frb-description,
-.frb input[type="checkbox"]:empty:checked ~ label span.frb-description {
-	color: #fafafa;
+/* Custom styles for different radio button states */
+.frb.frb-primary input[type="radio"]:checked ~ label:before {
+	background-color: #f359a9;
+	border-color: #f359a9;
 }
 
-.frb.frb-default input[type="radio"]:empty:checked ~ label span.frb-description,
-.frb.frb-default input[type="checkbox"]:empty:checked ~ label span.frb-description {
-	color: #999;
+.frb.frb-success input[type="radio"]:checked ~ label:before {
+	background-color: #5cb85c;
+	border-color: #5cb85c;
+}
+
+.frb.frb-info input[type="radio"]:checked ~ label:before {
+	background-color: #5bc0de;
+	border-color: #5bc0de;
+}
+
+.frb.frb-warning input[type="radio"]:checked ~ label:before {
+	background-color: #f0ad4e;
+	border-color: #f0ad4e;
+}
+
+.frb.frb-danger input[type="radio"]:checked ~ label:before {
+	background-color: #d9534f;
+	border-color: #d9534f;
 }

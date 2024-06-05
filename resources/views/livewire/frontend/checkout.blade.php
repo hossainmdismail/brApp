@@ -48,7 +48,7 @@
                                             <div class="detail-qty border radius  m-auto">
                                                 <a wire:click="decrement({{ $product['id'] }})" class="qty-down"><i
                                                         class="fi-rs-angle-small-down"></i></a>
-                                                <span wire:loading class="spinner-border spinner-border-sm"></span>
+                                                <span wire:loading class="span_loader"></span>
                                                 <span class="qty-val" wire:loading.remove>
                                                     {{ $product['quantity'] }}</span>
                                                 <a wire:click="increment({{ $product['id'] }})" class="qty-up"><i
@@ -72,30 +72,6 @@
                             <div class="col-lg-6 col-md-12">
                                 <div class="row">
 
-                                    <div class="mb-3">
-                                        <div class="mb-2">
-                                            <h4>Delivery Area</h4>
-                                        </div>
-
-                                        <div class="frb-group">
-                                            @error('shippingPrice')
-                                                <div class="mb-3"
-                                                    style="background: #d700000a; padding: 2px 10px 2px 10px; border-radius: 5px; border: 1px solid #DC3544;">
-                                                    {{ $message }}</div>
-                                            @enderror
-                                            @foreach ($shippings as $key => $shipping)
-                                                <div class="frb frb-primary">
-                                                    <input type="radio" wire:click="ship({{ $shipping->id }})"
-                                                        id="radio-button-{{ $key + 1 }}" name="radio-button">
-                                                    <label for="radio-button-{{ $key + 1 }}">
-                                                        <span class="frb-title">{{ $shipping->name }}</span>
-                                                        <span class="frb-description">৳ {{ $shipping->price }}</span>
-                                                    </label>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-
                                     <div class="col-12 mb-3">
                                         <div class="mb-2">
                                             <h4>Information</h4>
@@ -114,6 +90,13 @@
                                     </div>
 
                                     <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <input type="number"
+                                                class="form-control input-sm @error('number') is-invalid @enderror"
+                                                wire:model="number" aria-label="lg" placeholder=" 017-0000-000">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class=" input-group mb-3">
                                             <input type="email"
                                                 class="form-control input-sm @error('email') is-invalid @enderror"
@@ -121,20 +104,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="input-group mb-3">
-                                            <input type="number"
-                                                class="form-control input-sm @error('number') is-invalid @enderror"
-                                                wire:model="number" aria-label="lg" placeholder=" 017xxxxxxxx">
-                                        </div>
-                                    </div>
+
                                     <div class="col-12">
                                         {{-- <label for="">Address</label> --}}
                                         <div class="input-group mb-3">
                                             <input type="text"
                                                 class="form-control input-sm @error('address') is-invalid @enderror"
                                                 wire:model="address" aria-label="lg"
-                                                placeholder="Address ( থানা+জেলা )">
+                                                placeholder="Street, City, Division">
                                         </div>
                                     </div>
                                     <div class="col">
@@ -149,6 +126,29 @@
                                 <div class="mb-3">
                                     <div class="mb-2">
                                         <h4>Delivery Area</h4>
+                                    </div>
+
+                                    <div class="frb-group">
+                                        @error('shippingPrice')
+                                            <div class="mb-3"
+                                                style="background: #d700000a; padding: 2px 10px 2px 10px; border-radius: 5px; border: 1px solid #DC3544;">
+                                                {{ $message }}</div>
+                                        @enderror
+                                        @foreach ($shippings as $key => $shipping)
+                                            <div class="frb frb-primary">
+                                                <input type="radio" wire:click="ship({{ $shipping->id }})"
+                                                    id="radio-button-{{ $key + 1 }}" name="radio-button">
+                                                <label for="radio-button-{{ $key + 1 }}">
+                                                    <span class="frb-title">{{ $shipping->name }}</span>
+                                                    <span class="frb-description">৳ {{ $shipping->price }}</span>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="mb-2">
+                                        <h4>Pricing</h4>
                                     </div>
                                 </div>
                                 <div class=" border-radius cart-totals">
@@ -171,7 +171,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="cart_total_label">Total</td>
-                                                    <td class="cart_total_amount"><strong><span
+                                                    <td class="cart_total_amount">
+                                                        <span wire:loading class="span_loader"></span>
+                                                        <strong wire:loading.remove><span
                                                                 class="font-xl fw-900 text-brand">৳{{ $total }}</span></strong>
                                                     </td>
                                                 </tr>
