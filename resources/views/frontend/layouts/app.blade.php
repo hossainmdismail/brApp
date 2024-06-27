@@ -27,6 +27,12 @@ $link = CustomLink::first();
 </head>
 
 <body class="relative">
+    {{-- social --}}
+    <div id="socail" class="socail">
+        <a href="https://m.me/224345997439482" target="_blank">
+            <img src="{{ asset('frontend/imgs/socail/fb.png') }}" width="50px" height="50px" alt="">
+        </a>
+    </div>
     <!-- Modal -->
     <div class="modal" id="searchModal" tabindex="-1" role="dialog" style="z-index: 999999">
         <div class="modal-dialog" role="document">
@@ -102,6 +108,25 @@ $link = CustomLink::first();
                     searchModal.style.display = 'none';
                 }
             });
+
+            let socialDiv = document.getElementById('socail');
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', function() {
+                let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                console.log(currentScrollTop);
+
+                if (currentScrollTop > lastScrollTop) {
+                    // Scrolling down
+                    socialDiv.style.display = 'block';
+                } else {
+                    // Scrolling up
+                    socialDiv.style.display = 'none';
+                }
+
+                lastScrollTop = currentScrollTop <= 0 ? 0 :
+                    currentScrollTop; // For Mobile or negative scrolling
+            }, false);
         });
     </script>
     @livewireScripts

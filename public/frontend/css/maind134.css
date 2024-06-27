@@ -1122,6 +1122,17 @@ textarea:-moz-placeholder {
     opacity: 1;
 }
 
+/* Socail button */
+
+#socail {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 99999;
+}
+
+
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
     opacity: 1;
