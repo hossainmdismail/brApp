@@ -1125,7 +1125,7 @@ textarea:-moz-placeholder {
 /* Socail button */
 
 #socail {
-    display: none;
+    display: block;
     position: fixed;
     bottom: 30px;
     left: 30px;

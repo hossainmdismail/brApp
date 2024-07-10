@@ -108,25 +108,6 @@ $link = CustomLink::first();
                     searchModal.style.display = 'none';
                 }
             });
-
-            let socialDiv = document.getElementById('socail');
-            let lastScrollTop = 0;
-
-            window.addEventListener('scroll', function() {
-                let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                console.log(currentScrollTop);
-
-                if (currentScrollTop > lastScrollTop) {
-                    // Scrolling down
-                    socialDiv.style.display = 'block';
-                } else {
-                    // Scrolling up
-                    socialDiv.style.display = 'none';
-                }
-
-                lastScrollTop = currentScrollTop <= 0 ? 0 :
-                    currentScrollTop; // For Mobile or negative scrolling
-            }, false);
         });
     </script>
     @livewireScripts
