@@ -38,7 +38,8 @@ class OrderController extends Controller
             'address'   => 'required',
             'email'     => 'nullable|email',
         ], [
-            'number.regex' => 'Please enter a valid Bangladeshi phone number.'
+            'number.regex' => 'দয়া করে একটি বৈধ বাংলাদেশি ফোন নম্বর দিন (0180-000-000)',
+            'shipping' => 'দয়া করে শিপিং এরিয়া নির্বাচন করুন।',
         ]);
 
         $new = Inventory::find($request->inventory_id);

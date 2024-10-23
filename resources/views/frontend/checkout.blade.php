@@ -6,6 +6,12 @@
 @endsection
 
 @section('content')
+    {{-- social --}}
+    <div id="socail" class="socail">
+        <a href="https://m.me/224345997439482" target="_blank">
+            <img src="{{ asset('frontend/imgs/socail/fb.png') }}" width="35px" height="35px" alt="">
+        </a>
+    </div>
     @livewire('frontend.checkout')
 @endsection
 
@@ -22,17 +28,17 @@
         });
     </script>
     @if (session('add'))
-    <script>
-        fbq('track', 'AddToCart', {
-            content_ids: ['{{ session('add')->id }}'],
-            content_name: '{{ session('add')->name }}',
-            content_category: '{{ session('add')->category ? session('add')->category->category_name : 'Uncategorized' }}',
-            content_type: 'product',
-            content_list: '{{ session('add')->category ? session('add')->category->category_name : 'Uncategorized' }}',
-            value: '{{ session('add')->finalPrice }}',
-            currency: 'BDT',
-            num_items: {{ session('qnt') }},
-        });
-    </script>
-@endif
+        <script>
+            fbq('track', 'AddToCart', {
+                content_ids: ['{{ session('add')->id }}'],
+                content_name: '{{ session('add')->name }}',
+                content_category: '{{ session('add')->category ? session('add')->category->category_name : 'Uncategorized' }}',
+                content_type: 'product',
+                content_list: '{{ session('add')->category ? session('add')->category->category_name : 'Uncategorized' }}',
+                value: '{{ session('add')->finalPrice }}',
+                currency: 'BDT',
+                num_items: {{ session('qnt') }},
+            });
+        </script>
+    @endif
 @endsection

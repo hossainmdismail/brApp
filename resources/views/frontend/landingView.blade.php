@@ -21,7 +21,7 @@
     @endif
     <!-- End Meta Pixel Code -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $product->seo_title }}</title>
+    <title>Theme One</title>
     <style>
         .frb-group {
             margin: 15px 0;
@@ -114,10 +114,52 @@
         .text-danger {
             color: #d82121 !important;
         }
+
+        .chat-icon {
+            position: fixed;
+            right: 9px;
+            bottom: 27px;
+            width: 39px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 99;
+            animation: blink-animation 2s infinite;
+        }
+
+        @keyframes blink-animation {
+
+            0%,
+            100% {
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div class="chat-icon">
+        <a href="https://wa.me/+8801964264728" target="_blank">
+            <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle class="color-element" cx="19.4395" cy="19.4395" r="19.4395" fill="#49E670"></circle>
+                <path
+                    d="M12.9821 10.1115C12.7029 10.7767 11.5862 11.442 10.7486 11.575C10.1902 11.7081 9.35269 11.8411 6.84003 10.7767C3.48981 9.44628 1.39593 6.25317 1.25634 6.12012C1.11674 5.85403 2.13001e-06 4.39053 2.13001e-06 2.92702C2.13001e-06 1.46351 0.83755 0.665231 1.11673 0.399139C1.39592 0.133046 1.8147 1.01506e-06 2.23348 1.01506e-06C2.37307 1.01506e-06 2.51267 1.01506e-06 2.65226 1.01506e-06C2.93144 1.01506e-06 3.21063 -2.02219e-06 3.35022 0.532183C3.62941 1.19741 4.32736 2.66092 4.32736 2.79397C4.46696 2.92702 4.46696 3.19311 4.32736 3.32616C4.18777 3.59225 4.18777 3.59224 3.90858 3.85834C3.76899 3.99138 3.6294 4.12443 3.48981 4.39052C3.35022 4.52357 3.21063 4.78966 3.35022 5.05576C3.48981 5.32185 4.18777 6.38622 5.16491 7.18449C6.42125 8.24886 7.39839 8.51496 7.81717 8.78105C8.09636 8.91409 8.37554 8.9141 8.65472 8.648C8.93391 8.38191 9.21309 7.98277 9.49228 7.58363C9.77146 7.31754 10.0507 7.1845 10.3298 7.31754C10.609 7.45059 12.2841 8.11582 12.5633 8.38191C12.8425 8.51496 13.1217 8.648 13.1217 8.78105C13.1217 8.78105 13.1217 9.44628 12.9821 10.1115Z"
+                    transform="translate(12.9597 12.9597)" fill="#FAFAFA"></path>
+                <path
+                    d="M0.196998 23.295L0.131434 23.4862L0.323216 23.4223L5.52771 21.6875C7.4273 22.8471 9.47325 23.4274 11.6637 23.4274C18.134 23.4274 23.4274 18.134 23.4274 11.6637C23.4274 5.19344 18.134 -0.1 11.6637 -0.1C5.19344 -0.1 -0.1 5.19344 -0.1 11.6637C-0.1 13.9996 0.624492 16.3352 1.93021 18.2398L0.196998 23.295ZM5.87658 19.8847L5.84025 19.8665L5.80154 19.8788L2.78138 20.8398L3.73978 17.9646L3.75932 17.906L3.71562 17.8623L3.43104 17.5777C2.27704 15.8437 1.55796 13.8245 1.55796 11.6637C1.55796 6.03288 6.03288 1.55796 11.6637 1.55796C17.2945 1.55796 21.7695 6.03288 21.7695 11.6637C21.7695 17.2945 17.2945 21.7695 11.6637 21.7695C9.64222 21.7695 7.76778 21.1921 6.18227 20.039L6.17557 20.0342L6.16817 20.0305L5.87658 19.8847Z"
+                    transform="translate(7.7758 7.77582)" fill="white" stroke="white" stroke-width="0.2"></path>
+            </svg>
+        </a>
+    </div>
     <svg class="d-none">
         <symbol id="icon_nav" viewBox="0 0 25 18">
             <rect width="25" height="2" />
@@ -377,6 +419,331 @@
                     </div>
                 </form>
             </div>
+            <div class="container">
+                <div class="overflow-hidden">
+                    <ul class="navigation__list list-unstyled position-relative">
+                        <li class="navigation__item">
+                            <a href="#" class="navigation__link js-nav-right d-flex align-items-center">Home<svg
+                                    class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_next_sm" />
+                                </svg></a>
+                            <div class="sub-menu position-absolute top-0 start-100 w-100 d-none">
+                                <a href="#"
+                                    class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                                        class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <use href="#icon_prev_sm" />
+                                    </svg>Home</a>
+                                <ul class="list-unstyled">
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo1/index.html"
+                                            class="menu-link menu-link_us-s">Home 1</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo2/index.html"
+                                            class="menu-link menu-link_us-s">Home 2</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo3/index.html"
+                                            class="menu-link menu-link_us-s">Home 3</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="index.html"
+                                            class="menu-link menu-link_us-s">Home 4</a></li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo5/index.html"
+                                            class="menu-link menu-link_us-s">Home 5</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo6/index.html"
+                                            class="menu-link menu-link_us-s">Home 6</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo7/index.html"
+                                            class="menu-link menu-link_us-s">Home 7</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo8/index.html"
+                                            class="menu-link menu-link_us-s">Home 8</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo9/index.html"
+                                            class="menu-link menu-link_us-s">Home 9</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo10/index.html"
+                                            class="menu-link menu-link_us-s">Home 10</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo11/index.html"
+                                            class="menu-link menu-link_us-s">Home 11</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo12/index.html"
+                                            class="menu-link menu-link_us-s">Home 12</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo13/index.html"
+                                            class="menu-link menu-link_us-s">Home 13</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo14/index.html"
+                                            class="menu-link menu-link_us-s">Home 14</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo15/index.html"
+                                            class="menu-link menu-link_us-s">Home 15</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo16/index.html"
+                                            class="menu-link menu-link_us-s">Home 16</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo17/index.html"
+                                            class="menu-link menu-link_us-s">Home 17</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo18/index.html"
+                                            class="menu-link menu-link_us-s">Home 18</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo19/index.html"
+                                            class="menu-link menu-link_us-s">Home 19</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo20/index.html"
+                                            class="menu-link menu-link_us-s">Home 20</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo21/index.html"
+                                            class="menu-link menu-link_us-s">Home 21</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo22/index.html"
+                                            class="menu-link menu-link_us-s">Home 22</a>
+                                    </li>
+                                    <li class="sub-menu__item"><a href="{{ asset('landing') }}/Demo23/index.html"
+                                            class="menu-link menu-link_us-s">Home 23</a>
+                                    </li>
+                                </ul><!-- /.box-menu -->
+                            </div>
+                        </li>
+                        <li class="navigation__item">
+                            <a href="#" class="navigation__link js-nav-right d-flex align-items-center">Shop<svg
+                                    class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_next_sm" />
+                                </svg></a>
+                            <div class="sub-menu position-absolute top-0 start-100 w-100 d-none">
+                                <a href="#"
+                                    class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-3"><svg
+                                        class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <use href="#icon_prev_sm" />
+                                    </svg>Shop</a>
+                                <div class="sub-menu__wrapper">
+                                    <a href="#"
+                                        class="navigation__link js-nav-right d-flex align-items-center">Shop List<svg
+                                            class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <use href="#icon_next_sm" />
+                                        </svg></a>
+                                    <div class="sub-menu__wrapper position-absolute top-0 start-100 w-100 d-none">
+                                        <a href="#"
+                                            class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                                                class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_prev_sm" />
+                                            </svg>Shop List</a>
+                                        <ul class="sub-menu__list list-unstyled">
+                                            <li class="sub-menu__item"><a href="shop1.html"
+                                                    class="menu-link menu-link_us-s">Shop List V1</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop2.html"
+                                                    class="menu-link menu-link_us-s">Shop List V2</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop3.html"
+                                                    class="menu-link menu-link_us-s">Shop List V3</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop4.html"
+                                                    class="menu-link menu-link_us-s">Shop List V4</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop5.html"
+                                                    class="menu-link menu-link_us-s">Shop List V5</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop6.html"
+                                                    class="menu-link menu-link_us-s">Shop List V6</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop7.html"
+                                                    class="menu-link menu-link_us-s">Shop List V7</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop8.html"
+                                                    class="menu-link menu-link_us-s">Shop List V8</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop9.html"
+                                                    class="menu-link menu-link_us-s">Shop List V9</a>
+                                            </li>
+                                            <li class="sub-menu__item"><a href="shop10.html"
+                                                    class="menu-link menu-link_us-s">Shop Item
+                                                    Style</a></li>
+                                            <li class="sub-menu__item"><a href="shop11.html"
+                                                    class="menu-link menu-link_us-s">Horizontal
+                                                    Scroll</a></li>
+                                        </ul>
+                                    </div><!-- /.sub-menu__wrapper -->
+
+                                    <a href="#"
+                                        class="navigation__link js-nav-right d-flex align-items-center">Shop Detail<svg
+                                            class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <use href="#icon_next_sm" />
+                                        </svg></a>
+                                    <div class="sub-menu__wrapper position-absolute top-0 start-100 w-100 d-none">
+                                        <a href="#"
+                                            class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                                                class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_prev_sm" />
+                                            </svg>Shop Detail</a>
+                                        <ul class="sub-menu__list list-unstyled">
+                                            <li class="sub-menu__item"><a href="product2_variable.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V1</a></li>
+                                            <li class="sub-menu__item"><a href="product7_v2.html"
+                                                    class="menu-link menu-link_us-s">Shop Detail
+                                                    V2</a></li>
+                                            <li class="sub-menu__item"><a href="product8_v3.html"
+                                                    class="menu-link menu-link_us-s">Shop Detail
+                                                    V3</a></li>
+                                            <li class="sub-menu__item"><a href="product9_v4.html"
+                                                    class="menu-link menu-link_us-s">Shop Detail
+                                                    V4</a></li>
+                                            <li class="sub-menu__item"><a href="product10_v5.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V5</a></li>
+                                            <li class="sub-menu__item"><a href="product11_v6.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V6</a></li>
+                                            <li class="sub-menu__item"><a href="product12_v7.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V7</a></li>
+                                            <li class="sub-menu__item"><a href="product13_v8.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V8</a></li>
+                                            <li class="sub-menu__item"><a href="product14_v9.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V9</a></li>
+                                            <li class="sub-menu__item"><a href="product15_v10.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V10</a></li>
+                                            <li class="sub-menu__item"><a href="product16_v11.html"
+                                                    class="menu-link menu-link_us-s">Shop
+                                                    Detail V11</a></li>
+                                        </ul>
+                                    </div><!-- /.sub-menu__wrapper -->
+
+                                    <a href="#"
+                                        class="navigation__link js-nav-right d-flex align-items-center">Other Pages<svg
+                                            class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <use href="#icon_next_sm" />
+                                        </svg></a>
+                                    <div class="sub-menu__wrapper position-absolute top-0 start-100 w-100 d-none">
+                                        <a href="#"
+                                            class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                                                class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_prev_sm" />
+                                            </svg>Other Pages</a>
+                                        <ul class="sub-menu__list list-unstyled">
+                                            <li class="sub-menu__item"><a href="shop12.html"
+                                                    class="menu-link menu-link_us-s">Collection
+                                                    Grid</a></li>
+                                            <li class="sub-menu__item"><a href="product1_simple.html"
+                                                    class="menu-link menu-link_us-s">Simple
+                                                    Product</a></li>
+                                            <li class="sub-menu__item"><a href="product2_variable.html"
+                                                    class="menu-link menu-link_us-s">Variable Product</a></li>
+                                            <li class="sub-menu__item"><a href="product3_external.html"
+                                                    class="menu-link menu-link_us-s">External Product</a></li>
+                                            <li class="sub-menu__item"><a href="product4_grouped.html"
+                                                    class="menu-link menu-link_us-s">Grouped Product</a></li>
+                                            <li class="sub-menu__item"><a href="product5_onsale.html"
+                                                    class="menu-link menu-link_us-s">On
+                                                    Sale</a></li>
+                                            <li class="sub-menu__item"><a href="product6_outofstock.html"
+                                                    class="menu-link menu-link_us-s">Out
+                                                    of Stock</a></li>
+                                            <li class="sub-menu__item"><a href="shop_cart.html"
+                                                    class="menu-link menu-link_us-s">Shopping
+                                                    Cart</a></li>
+                                            <li class="sub-menu__item"><a href="shop_checkout.html"
+                                                    class="menu-link menu-link_us-s">Checkout</a></li>
+                                            <li class="sub-menu__item"><a href="shop_order_complete.html"
+                                                    class="menu-link menu-link_us-s">Order Complete</a></li>
+                                            <li class="sub-menu__item"><a href="shop_order_tracking.html"
+                                                    class="menu-link menu-link_us-s">Order Tracking</a></li>
+                                        </ul>
+                                    </div><!-- /.sub-menu__wrapper -->
+                                </div><!-- /.sub-menu__wrapper -->
+                            </div><!-- /.sub-menu -->
+                        </li>
+
+                        <li class="navigation__item">
+                            <a href="#" class="navigation__link js-nav-right d-flex align-items-center">Blog<svg
+                                    class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_next_sm" />
+                                </svg></a>
+                            <div class="sub-menu position-absolute top-0 start-100 w-100 d-none">
+                                <a href="#"
+                                    class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                                        class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <use href="#icon_prev_sm" />
+                                    </svg>Blog</a>
+                                <ul class="list-unstyled">
+                                    <li class="sub-menu__item"><a href="blog_list1.html"
+                                            class="menu-link menu-link_us-s">Blog V1</a></li>
+                                    <li class="sub-menu__item"><a href="blog_list2.html"
+                                            class="menu-link menu-link_us-s">Blog V2</a></li>
+                                    <li class="sub-menu__item"><a href="blog_list3.html"
+                                            class="menu-link menu-link_us-s">Blog V3</a></li>
+                                    <li class="sub-menu__item"><a href="blog_single.html"
+                                            class="menu-link menu-link_us-s">Blog Detail</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="navigation__item">
+                            <a href="#"
+                                class="navigation__link js-nav-right d-flex align-items-center">Pages<svg
+                                    class="ms-auto" width="7" height="11" viewBox="0 0 7 11"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_next_sm" />
+                                </svg></a>
+                            <div class="sub-menu position-absolute top-0 start-100 w-100 d-none">
+                                <a href="#"
+                                    class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                                        class="me-2" width="7" height="11" viewBox="0 0 7 11"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <use href="#icon_prev_sm" />
+                                    </svg>Pages</a>
+                                <ul class="list-unstyled">
+                                    <li class="sub-menu__item"><a href="account_dashboard.html"
+                                            class="menu-link menu-link_us-s">My
+                                            Account</a></li>
+                                    <li class="sub-menu__item"><a href="login_register.html"
+                                            class="menu-link menu-link_us-s">Login /
+                                            Register</a></li>
+                                    <li class="sub-menu__item"><a href="store_location.html"
+                                            class="menu-link menu-link_us-s">Store
+                                            Locator</a></li>
+                                    <li class="sub-menu__item"><a href="lookbook.html"
+                                            class="menu-link menu-link_us-s">Lookbook</a></li>
+                                    <li class="sub-menu__item"><a href="faq.html"
+                                            class="menu-link menu-link_us-s">Faq</a></li>
+                                    <li class="sub-menu__item"><a href="terms.html"
+                                            class="menu-link menu-link_us-s">Terms</a></li>
+                                    <li class="sub-menu__item"><a href="404.html"
+                                            class="menu-link menu-link_us-s">404 Error</a></li>
+                                    <li class="sub-menu__item"><a href="coming_soon.html"
+                                            class="menu-link menu-link_us-s">Coming Soon</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="navigation__item">
+                            <a href="about.html" class="navigation__link">About</a>
+                        </li>
+
+                        <li class="navigation__item">
+                            <a href="contact.html" class="navigation__link">Contact</a>
+                        </li>
+                    </ul><!-- /.navigation__list -->
+                </div><!-- /.overflow-hidden -->
+            </div><!-- /.container -->
             <div class="border-top mt-auto pb-2">
                 <div class="customer-links container mt-4 mb-2 pb-1">
                     <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20"
@@ -650,7 +1017,8 @@
         </section>
 
         <section class="products-carousel container">
-            <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4" style="font-family:'Anek Bangla', sans-serif;">কাস্টমার
+            <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4" style="font-family:'Anek Bangla', sans-serif;">
+                কাস্টমার
                 <strong>রিভিউ</strong>
             </h2>
             <div class="product-single__reviews-list">
@@ -694,7 +1062,8 @@
         </section>
 
         <section class="products-carousel container">
-            <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4" style="font-family:'Anek Bangla', sans-serif;">রিলেটেড
+            <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4" style="font-family:'Anek Bangla', sans-serif;">
+                রিলেটেড
                 <strong>প্রডাক্ট</strong>
             </h2>
             <div id="related_products" class="position-relative">
@@ -846,7 +1215,8 @@
                                     <div class="form-floating my-3">
                                         <input type="text"
                                             class="form-control @error('name') is-invalid @enderror " name="name"
-                                            id="name" placeholder="Company Name (optional)" required>
+                                            id="name" placeholder="Company Name (optional)"
+                                            value="{{ old('name') }}" required>
                                         <label for="name" class="font-bd">আপনার নাম *</label>
                                     </div>
                                     @error('name')
@@ -859,7 +1229,7 @@
                                         <input type="text"
                                             class="form-control @error('number') is-invalid @enderror "
                                             id="checkout_phone" name="number" placeholder="আপনার মোবাইল নাম্বার"
-                                            required>
+                                            value="{{ old('number') }}" required>
                                         <label for="checkout_phone" class="font-bd">আপনার মোবাইল নাম্বার *</label>
 
                                     </div>
@@ -872,8 +1242,10 @@
                                     <div class="form-floating my-3">
                                         <input type="text"
                                             class="form-control @error('address') is-invalid @enderror "
-                                            id="checkout_phone" name="address" placeholder="আপনার ঠিকানা">
-                                        <label for="checkout_phone" class="font-bd">হাউস নং, রোড নং/গ্রাম, থানা,
+                                            id="checkout_phone" name="address" value="{{ old('address') }}"
+                                            placeholder="আপনার ঠিকানা">
+                                        <label for="checkout_phone" class="font-bd">Address - হাউস নং, রোড নং/গ্রাম,
+                                            থানা,
                                             জেলা</label>
                                     </div>
                                     @error('address')
@@ -885,7 +1257,7 @@
                             <div class="col-md-12">
                                 <div class="mt-3">
                                     <textarea class="form-control form-control_gray" name="message" placeholder="Order Notes (optional)" cols="30"
-                                        rows="4"></textarea>
+                                        rows="4">{{ old('message') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -1021,7 +1393,7 @@
     </footer><!-- /.footer footer_type_1 -->
 
     <!-- Go To Top -->
-    <div id="scrollTop" class="visually-hidden end-0"></div>
+    {{-- <div id="scrollTop" class="visually-hidden end-0"></div> --}}
 
     <!-- Page Overlay -->
     <div class="page-overlay"></div><!-- /.page-overlay -->
