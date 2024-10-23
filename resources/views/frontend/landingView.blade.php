@@ -21,7 +21,7 @@
     @endif
     <!-- End Meta Pixel Code -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Theme One</title>
+    <title>{{ $product->seo_title }}</title>
     <style>
         .frb-group {
             margin: 15px 0;
