@@ -36,6 +36,7 @@ Route::get('/', [FrontendController::class, 'home'])->name('index');
 
 
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/landing/{slugs}', [ControllersProductController::class, 'landing'])->name('landing.view');
 Route::get('/products/{slugs}', [ControllersProductController::class, 'single'])->name('product.view');
 Route::post('/add/cart', [ControllersProductController::class, 'cart'])->name('addtocart');
 Route::get('/categories/{slugs}', [ControllersCategoryController::class, 'index'])->name('front.category');
@@ -44,21 +45,14 @@ Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/features', [FeaturesController::class, 'features'])->name('features');
 Route::get('/hot-deal', [FeaturesController::class, 'hot'])->name('hot');
 Route::post('/order', [OrderController::class, 'order'])->name('user.order');
+Route::post('/landing/order', [OrderController::class, 'landingOrder'])->name('landing,.order');
 Route::get('/thankyou', [OrderController::class, 'thankyou'])->name('thankyou');
+Route::get('/thanks', [OrderController::class, 'thankyouLanding'])->name('landing.thankyou');
 Route::get('/about', [HomeController::class, 'aboutus'])->name('aboutus');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/campaign/{id}', [HomeController::class, 'campaign'])->name('campaign.product.list');
 Route::get('/privacy-policy', [HomeController::class, 'privacy'])->name('privacy');
 Route::get('/sitemap', [SEOController::class, 'sitemap'])->name('sitemap');
-
-// Route::get('/unsubscribe/{user}', function (Request $request) {
-//     if (!$request->hasValidSignature()) {
-//         abort(401);
-//     }
-
-//     dd('Valied');
-//     // ...
-// })->name('unsubscribe');
 
 Route::middleware(['admin'])->prefix('ek_admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -92,8 +86,6 @@ Route::middleware(['admin'])->prefix('ek_admin')->group(function () {
     Route::resource('/campaign-product', CampaignController::class);
     Route::resource('/employee', EmployeeController::class);
 });
-
-
 
 Route::prefix('backdrop')->group(function () {
     Route::get('/register', [AdminController::class, 'admin_register'])->name('admin.register');

@@ -58,9 +58,7 @@
                                 <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="detail-gallery">
                                         <span class="zoom-icon"><i class="fi-rs-search"></i></span>
-                                        <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
-                                            {{-- {{ $product->attributes }} --}}
                                             @foreach ($product->uniqueAttributes() as $key => $image)
                                                 <figure class="border-radius-10">
                                                     <img src="{{ asset('files/product/' . $image->image) }}"
@@ -68,7 +66,6 @@
                                                 </figure>
                                             @endforeach
                                         </div>
-                                        <!-- THUMBNAILS -->
                                         <div class="slider-nav-thumbnails pl-15 pr-15">
                                             @foreach ($product->uniqueAttributes() as $key => $image)
                                                 <div><img src="{{ asset('files/product/' . $image->image) }}"
@@ -77,7 +74,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- Product details --}}
                                 @livewire('frontend.product-view', ['id' => $product->id])
                             </div>
                             <div class="tab-style3">
@@ -101,7 +97,6 @@
                                             {!! $product->description !!}
                                         </div>
                                     </div>
-                                    {{-- Comment --}}
                                     <div class="tab-pane fade" id="Reviews">
                                         <div class="comments-area">
                                             <div class="row">

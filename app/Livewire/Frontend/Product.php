@@ -11,12 +11,12 @@ use Livewire\Component;
 
 class Product extends Component
 {
-    public function addToCart($productId,$qnt)
+    public function addToCart($productId, $qnt)
     {
         if (ModelsProduct::find($productId)->stock_status == 0) {
             return back();
         }
-        $quantity = $qnt?$qnt:1;
+        $quantity = $qnt ? $qnt : 1;
         CookieSD::addToCookie($productId, $quantity);
 
         // Push data to the GTM data layer
@@ -24,7 +24,6 @@ class Product extends Component
 
         // Emit an event to notify other components
         $this->dispatch('post-created');
-
     }
 
     private function pushToDataLayer($productId, $quantity)
@@ -60,11 +59,11 @@ class Product extends Component
 
     public function render()
     {
-        $latest     = ModelsProduct::where('status','active')->latest()->get()->take(8);
-        $featured   = ModelsProduct::where('status','active')->where('featured', 1)->latest()->get()->take(8);
-        $popular    = ModelsProduct::where('status','active')->where('popular', 1)->latest()->get()->take(8);
+        $latest     = ModelsProduct::where('status', 'active')->latest()->get()->take(16);
+        $featured   = ModelsProduct::where('status', 'active')->where('featured', 1)->latest()->get()->take(8);
+        $popular    = ModelsProduct::where('status', 'active')->where('popular', 1)->latest()->get()->take(8);
         $category   = ProductCategory::all();
-        $vertical   = Campaign::where('image_type','vertical')->first();
+        $vertical   = Campaign::where('image_type', 'vertical')->first();
         return view('livewire..frontend.product', [
             'latests'       => $latest,
             'featureds'     => $featured,

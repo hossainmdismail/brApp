@@ -311,21 +311,21 @@
                                                 <label for="price" class="form-label">Price</label>
                                                 <input type="text" placeholder="Entire Name"
                                                     class="form-control @error('price') is-invalid @enderror"
-                                                    name="price" value="{{ $request->price }}">
+                                                    name="price" value="{{ floor($request->price) }}">
                                             </div>
                                             <div class="mb-4 col-md-6">
                                                 <label for="stock_price" class="form-label">Stock
                                                     Price</label>
                                                 <input type="number" placeholder="Entire Name"
                                                     class="form-control @error('stock_price') is-invalid @enderror"
-                                                    name="stock_price" value="{{ $request->stock_price }}">
+                                                    name="stock_price" value="{{ floor($request->stock_price) }}">
                                             </div>
                                             <div class="mb-4 col-md-6">
                                                 <label for="s_price" class="form-label">Discount
                                                     Price</label>
                                                 <input type="number" placeholder="Entire Name"
                                                     class="form-control @error('s_price') is-invalid @enderror"
-                                                    name="s_price" value="{{ $request->s_price }}">
+                                                    name="s_price" value="{{ floor($request->s_price) }}">
                                             </div>
                                             <div class="mb-4 col-md-6">
                                                 <label for="product_name" class="form-label">Type</label>
