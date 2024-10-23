@@ -23,6 +23,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Theme One</title>
     <style>
+        .qnt-null {
+            border-color: red !important;
+        }
+
         .frb-group {
             margin: 15px 0;
         }
@@ -1389,13 +1393,8 @@
                     </div>
                 </div><!-- /.footer-settings -->
             </div><!-- /.d-flex -->
-        </div><!-- /.footer-bottom container -->
-    </footer><!-- /.footer footer_type_1 -->
-
-    <!-- Go To Top -->
-    {{-- <div id="scrollTop" class="visually-hidden end-0"></div> --}}
-
-    <!-- Page Overlay -->
+        </div>
+    </footer>
     <div class="page-overlay"></div><!-- /.page-overlay -->
     <!-- External JavaScripts -->
     <script src="js/plugins/jquery.min.js"></script>
@@ -1431,8 +1430,8 @@
                     sizeOptions.innerHTML += `
     <input type="radio" name="inventory_id" id="size-${size.size_id}" value="${size.inventory_id}" ${checked}
         ${disabled}>
-    <label class="swatch js-swatch" for="size-${size.size_id}">
-        ${size.size_name} (${size.stock > 0 ? 'In stock' : 'Out of stock'})
+    <label class="swatch js-swatch ${size.stock > 0 ? '' : 'qnt-null'}" for="size-${size.size_id}">
+        ${size.size_name}
     </label>
     `;
                 });

@@ -346,7 +346,7 @@
     <div class="header-mobile header_sticky">
         <div class="container d-flex align-items-center h-100">
             <div class="logo">
-                <a href="{{ $config->url }}">
+                <a href="{{ route('index') }}">
                     @if ($config)
                         <img src="{{ asset('files/config/' . $config->logo) }}"
                             alt="{{ $config ? $config->name : 'Unknown' }}" class="logo__image d-block">
@@ -361,7 +361,7 @@
         <div class="container">
             <div class="header-desk header-desk_type_1">
                 <div class="logo">
-                    <a href="{{ $config->url }}">
+                    <a href="{{ route('index') }}">
                         @if ($config)
                             <img src="{{ asset('files/config/' . $config->logo) }}"
                                 alt="{{ $config ? $config->name : 'Unknown' }}" width="135px"
