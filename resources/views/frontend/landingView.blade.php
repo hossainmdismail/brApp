@@ -21,7 +21,7 @@
     @endif
     <!-- End Meta Pixel Code -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Theme One</title>
+    <title>{{ $product->name }}</title>
     <style>
         .qnt-null {
             border-color: red !important;
