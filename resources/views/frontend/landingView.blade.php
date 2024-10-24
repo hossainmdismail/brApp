@@ -1332,7 +1332,7 @@
                                             policy</a>.
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary font-bd">অর্ডার করুন</button>
+                                <button type="submit" class="btn btn-primary font-bd w-100">অর্ডার করুন</button>
                             </div>
                         </div>
                     </div>
