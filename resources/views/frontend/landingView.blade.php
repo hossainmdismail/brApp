@@ -48,7 +48,7 @@
             color: black;
             text-align: center;
             border-radius: 5px;
-            border: 2px solid black;
+            border: 1px solid black;
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s, color 0.3s;
@@ -1191,8 +1191,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="d-block d-md-none">
+                                <h5 class="font-bd"><strong>শিপিং এরিয়া</strong></h5>
+                                <div class="frb-group">
+                                    @foreach ($shippings as $key => $shipping)
+                                        <div class="frb frb-primary">
+                                            <input type="radio" id="shipping-{{ $key + 1 }}" name="shipping"
+                                                value="{{ $shipping->id }}" data-price="{{ $shipping->price }}"
+                                                class="@error('shipping') is-invalid @enderror"
+                                                {{ old('shipping') == $shipping->id ? 'checked' : '' }}
+                                                {{ $key == 0 ? 'checked' : '' }}>
+                                            <!-- Add 'is-invalid' class if there's an error -->
+                                            <label for="shipping-{{ $key + 1 }}">
+                                                <span class="frb-title">{{ $shipping->name }}</span>
+                                                <span
+                                                    class="frb-description shipping-price">{{ floor($shipping->price) }}৳</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
 
-                            <h4>BILLING DETAILS</h4>
+                                    <!-- Show error message -->
+                                    @error('shipping')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <h4 class="font-bd"><strong>আপনার তথ্য</strong></h4>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating my-3">
@@ -1243,10 +1268,14 @@
                                         rows="4">{{ old('message') }}</textarea>
                                 </div>
                             </div>
+
+                            <div class="d-block d-md-none mt-3">
+                                <button type="submit" class="btn btn-primary font-bd w-100">অর্ডার করুন</button>
+                            </div>
                         </div>
 
                         <!-- your card -->
-                        <div class="checkout__totals-wrapper">
+                        <div class="checkout__totals-wrapper d-none d-md-block">
                             <div class="sticky-content">
                                 <div class="checkout__totals">
                                     <h3>Your Order</h3>
