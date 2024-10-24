@@ -1332,7 +1332,7 @@
                                             policy</a>.
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">PLACE ORDER</button>
+                                <button type="submit" class="btn btn-primary font-bd">অর্ডার করুন</button>
                             </div>
                         </div>
                     </div>
@@ -1386,6 +1386,18 @@
 
     <!-- Footer Scripts -->
     <script src="js/theme.js"></script>
+    @if ($errors->any())
+        <script>
+            fbq('track', 'FormError', {
+                content_name: 'Checkout Form Errors',
+                content_category: 'Form Submission',
+                content_ids: ['{{ implode("', '", $errors->keys()) }}'],
+                content_type: 'product',
+                value: {{ count($errors) }},
+                currency: 'GBP'
+            });
+        </script>
+    @endif
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if ($errors->any()) // If there are validation errors
@@ -1497,20 +1509,20 @@
                 });
             });
         });
-        fbq('track', 'InitiateCheckout', {
-            content_name: '{{ $product->name }}', // Ensure this is output as a string
-            content_ids: ['{{ $product->slugs }}'], // If it's an array, wrap it in quotes and brackets
-            content_type: 'product',
-            value: {{ $product->getFinalPrice() }}, // This is likely a numeric value, so no quotes needed
-            currency: 'BDT' // Replace with your currency (e.g., GBP)
-        });
+        //fbq('track', 'InitiateCheckout', {
+        //    content_name: '{{ $product->name }}',
+        //    content_ids: ['{{ $product->slugs }}'],
+        //    content_type: 'product',
+        //    value: {{ $product->getFinalPrice() }},
+        //    currency: 'BDT'
+        //});
         document.getElementById('checkoutForm').addEventListener('submit', function() {
             var formTotalValue = document.querySelector('.checkout-grandtotal').textContent.replace(/[^\d.-]/g,
-                ''); // Extract numeric value
+                '');
             fbq('track', 'Lead', {
-                content_name: 'Checkout Form', // Optional custom parameter
-                value: formTotalValue, // Replace with the total value of the form
-                currency: 'BDT' // Replace with the actual currency
+                content_name: 'Checkout Form',
+                value: formTotalValue,
+                currency: 'BDT'
             });
         });
     </script>
