@@ -150,12 +150,10 @@ class ProductController extends Controller
             'stock_price'       => 'required|integer',
             's_price'           => 'required|integer',
             'sp_type'           => 'required',
-
         ]);
 
-        $slug = Str::slug($request->product_name);
+        $slug = Str::slug($request->slugs);
 
-        // Check if the slug already exists, append numeric value if necessary
         $count = Product::where('slugs', $slug)->count();
         if ($count > 1) {
             $slug = $slug . '-' . ($count + 1);

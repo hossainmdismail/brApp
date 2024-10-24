@@ -352,6 +352,13 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-4">
+                                                    <label for="product_name" class="form-label">Slug</label>
+                                                    <input type="text" placeholder="Entire Email" class="form-control"
+                                                        name="slugs" value="{{ $request->slugs }}">
+                                                </div>
+                                            </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-4">
                                                     <label for="product_name" class="form-label">SEO Titile</label>

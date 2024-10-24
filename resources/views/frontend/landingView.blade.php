@@ -893,27 +893,6 @@
                     </div>
                 </div>
                 <div class="col-lg-5">
-                    {{-- <div class="d-flex justify-content-between mb-4 pb-md-2">
-                        <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">Home</a>
-                            <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                            <a href="#" class="menu-link menu-link_us-s text-uppercase fw-medium">The Shop</a>
-                        </div><!-- /.breadcrumb -->
-
-                        <div
-                            class="product-single__prev-next d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-                            <a href="#" class="text-uppercase fw-medium disabled"><svg class="mb-1px"
-                                    width="10" height="10" viewBox="0 0 25 25"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_prev_md" />
-                                </svg><span class="menu-link menu-link_us-s">Prev</span></a>
-                            <a href="product2_variable.html" class="text-uppercase fw-medium"><span
-                                    class="menu-link menu-link_us-s">Next</span><svg class="mb-1px" width="10"
-                                    height="10" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
-                                    <use href="#icon_next_md" />
-                                </svg></a>
-                        </div>
-                    </div> --}}
                     <h1 class="product-single__name"
                         style="font-family: 'Anek Bangla', sans-serif; font-weight: 700;">{{ $product->name }}</h1>
                     <div class="product-single__rating">
