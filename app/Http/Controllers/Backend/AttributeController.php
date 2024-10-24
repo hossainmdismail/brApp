@@ -60,7 +60,7 @@ class AttributeController extends Controller
             $inventory->qnt         = $request->qnt;
 
             //Upload Photo
-            Photo::upload($request->image, 'files/product', 'PRO' . $request->id, [400, 400]);
+            Photo::upload($request->image, 'files/product', 'PRO' . $request->id);
             if (Photo::$name) {
                 $inventory->image   = Photo::$name;
             }
@@ -131,7 +131,7 @@ class AttributeController extends Controller
                 //Delete Image
                 Photo::delete('files/product', $attributes->image);
                 //Upload Photo
-                Photo::upload($request->image, 'files/product', 'PRO-UP' . $request->id, [400, 400]);
+                Photo::upload($request->image, 'files/product', 'PRO-UP' . $request->id);
                 $attributes->image = Photo::$name;
             }
             // $attributes->sp_price = $request->sp_price;
