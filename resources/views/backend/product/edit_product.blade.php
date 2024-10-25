@@ -201,6 +201,108 @@
             </div>
         </div>
     </div>
+    <!-- add addReview-->
+    <div class="modal fade show" id="addReview" tabindex="-1" style="z-index: 99999" aria-labelledby="addReview"
+        aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('custome.review') }}" id="editFormFirst"
+                    enctype="multipart/form-data">\
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $request->id }}">
+                    <div class="modal-body row">
+                        <div class="mb-3">
+                            <input class="form-control" type="text" name="name" placeholder="Name">
+                        </div>
+                        <input type="hidden" name="email" value="rakib@gmail.com">
+                        <input type="hidden" name="number" value="01787076543">
+                        <div class="mb-3">
+                            <input class="form-control" type="number" name="rating" value="5" max="5"
+                                min="1" placeholder="Rating">
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control" type="file" name="image">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" type="text" name="comment" placeholder="Comment"> </textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Show Review -->
+    <div class="modal fade show" id="review" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-modal="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addReview"
+                        class="btn btn-md rounded font-sm hover-up">Add Reviews</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Number</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Star</th>
+                                <th scope="col"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($request->comments as $comment)
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-info text-dark">{{ $comment->name }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info text-dark">{{ $comment->email }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info text-dark">{{ $comment->number }}</span>
+                                    </td>
+                                    <td>
+                                        <img class="rounded" style="width: 30px; height: 30px;"
+                                            src="{{ asset('files/review/' . $comment->image) }}" alt="">
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info text-dark">{{ $comment->rating }}*</span>
+                                    </td>
+                                    {{-- <td>
+                                        <a data-bs-val="{{ route('attributes.edit', $comment->id) }}"
+                                            data-bs-peram="{{ $comment->id }}" class="badge p-1 editAttr">
+                                            <?xml version="1.0" encoding="UTF-8"?>
+                                            <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24"
+                                                width="16" height="16">
+                                                <path
+                                                    d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
+                                                <path
+                                                    d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
+                                            </svg>
+                                        </a>
+                                    </td> --}}
+                                </tr>
+                            @empty
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="content-main">
 
@@ -236,6 +338,8 @@
                     <div class="content-header">
                         <h5 class="content-title">{{ $request->name }}</h5>
                         <div>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#review"
+                                data-bs-whatever="@mdo" class="btn btn-secondary btn-md hover-up">Reviews</button>
                             <a href="{{ route('product.index') }}" name="btn"
                                 class="btn btn-md rounded font-sm hover-up">Back</a>
                             <button type="submit" name="btn" value="deactive"

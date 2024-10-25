@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Comments;
+use Photo;
 
 class ProductController extends Controller
 {
@@ -123,7 +125,7 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-        //
+        dd($id);
     }
 
     public function edit(string $id)
@@ -196,5 +198,32 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function customeReview(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'number' => 'required',
+            'rating' => 'required',
+            'comment' => 'required',
+        ]);
+
+        if ($request->has('image')) {
+            Photo::upload($request->image, 'files/review', 'REV' . $request->id);
+        }
+
+        $comment = new Comments();
+        $comment->product_id = $request->id;
+        $comment->name = $request->name;
+        $comment->email = $request->email;
+        $comment->number = $request->number;
+        $comment->rating = $request->rating;
+        $comment->comment = $request->comment;
+        $comment->image = Photo::$name;
+        $comment->save();
+
+        return back()->with('succ', 'Review added succsessfully');
     }
 }

@@ -80,6 +80,7 @@ Route::middleware(['admin'])->prefix('ek_admin')->group(function () {
     Route::resource('/campaign', CampaignController::class);
     Route::resource('/variation', VariationController::class);
     Route::resource('/product', App\Http\Controllers\Admin\ProductController::class);
+    Route::post('/custom/review', [App\Http\Controllers\Admin\ProductController::class, 'customeReview'])->name('custome.review');
     Route::resource('/coupon', App\Http\Controllers\Backend\CouponController::class);
     Route::resource('/shipping', ShippingController::class);
     Route::resource('/attributes', AttributeController::class);

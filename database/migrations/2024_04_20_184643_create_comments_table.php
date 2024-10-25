@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('number');
             $table->integer('rating')->nullable();
+            $table->string('image')->nullable();
             $table->longText('comment');
             $table->timestamps();
         });
