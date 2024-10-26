@@ -1298,7 +1298,7 @@
                             </div>
 
                             <div class="d-block d-md-none mt-3">
-                                <button type="submit" class="btn btn-primary font-bd w-100">অর্ডার করুন</button>
+                                <button type="submit" class="btn btn-warning font-bd w-100">অর্ডার করুন</button>
                             </div>
                         </div>
 
@@ -1389,7 +1389,7 @@
                                             policy</a>.
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary font-bd w-100">অর্ডার করুন</button>
+                                <button type="submit" class="btn btn-warning font-bd w-100">অর্ডার করুন</button>
                             </div>
                         </div>
                     </div>
