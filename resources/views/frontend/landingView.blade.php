@@ -1198,6 +1198,7 @@
                                                     style="background-color: {{ $color['code'] }};">
                                                     <img src="{{ asset('files/product/' . $color['image']) }}"
                                                         style="border-radius: .6rem;" alt="{{ $color['name'] }}">
+                                                    <span class="position-color">{{ $color['name'] }}</span>
                                                 </label>
                                             @endforeach
                                         </div>
